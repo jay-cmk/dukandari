@@ -7,8 +7,6 @@ import Login from "./UserAuth/Login";
 import Layout from "./components/Layout";
 import Employee from "./pages/Employee/Employee";
 import Dashboard from "./pages/Dashboard/Dashboard";
-import { toast, ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 
 export default function App() {
   const [user, setUser] = useState(false); // 👈 auth state
@@ -23,6 +21,8 @@ export default function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/dashboard" element={<Layout><Dashboard /></Layout>} />
         <Route path="/employee" element={<Layout><Employee/></Layout>} />
+        <Route path="/outlets" element={<Layout><Outlets/></Layout>} />
+        <Route path="/outletsForm" element={<Layout><OutletForm/></Layout>} />
         {/* <Route path="/dashboard" element={<Layout><Dashboard/></Layout>} /> */}
 
 

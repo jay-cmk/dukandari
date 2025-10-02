@@ -9,6 +9,7 @@ import {
   BarChart,
   Gift,
   Calculator,
+  Network
 } from "lucide-react";
 import { NavLink } from "react-router-dom";
 import { motion } from "framer-motion";
@@ -27,6 +28,7 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
     { name: "Gifts", icon: Gift, path: "/gifts" },
     { name: "Calculator", icon: Calculator, path: "/calculator" },
     { name: "Settings", icon: Settings, path: "/settings" },
+   { name: "Outlets", icon: Network , path: "/outlets" },
   ];
 
   // Sidebar expanded condition: either toggled open OR hovered
