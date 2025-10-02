@@ -12,7 +12,7 @@ export default function EmployeeSearch({
                 value={query}
                 onChange={(e) => onQueryChange(e.target.value)}
                 placeholder="Search employees..."
-                className="w-full rounded-lg border border-gray-300 bg-white pl-10 pr-4 py-2 text-sm focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 focus:outline-none transition-colors"
+                className=" rounded-sm border border-gray-300 bg-white pl-10 py-1 text-sm focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 focus:outline-none transition-colors"
             />
         </div>
     );

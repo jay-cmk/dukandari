@@ -7,12 +7,16 @@ import Login from "./UserAuth/Login";
 import Layout from "./components/Layout";
 import Employee from "./pages/Employee/Employee";
 import Dashboard from "./pages/Dashboard/Dashboard";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export default function App() {
   const [user, setUser] = useState(false); // 👈 auth state
 
   return (
      <Router>
+      <ToastContainer position="top-right" autoClose={3000} />
+
       <Routes>
         <Route path="/" element={user ? <Layout><Dashboard/></Layout> : <Login />} />
         <Route path="/signup" element={<Signup />} />
@@ -30,3 +34,57 @@ export default function App() {
     </Router>
   );
 }
+
+
+// import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
+// import { toast, ToastContainer } from "react-toastify";
+// import "react-toastify/dist/ReactToastify.css";
+// import './app.css'
+
+// import Layout from "./components/Layout";
+// import Employee from "./pages/Employee/Employee";
+// import Dashboard from "./pages/Dashboard/Dashboard";
+//  import Signup from "./UserAuth/Signup";
+//  import Login from "./UserAuth/Login";
+
+// function App() {
+//   const user = false; // 🔥 replace with your actual auth state (context, redux, etc.)
+
+//   // helper for protected pages
+//   const requireAuth = (component) => {
+//     if (!user) {
+//       toast.error("Please log in first!");
+//       return <Navigate to="/login" replace />;
+//     }
+//     return component;
+//   };
+
+//   return (
+//     <Router>
+//       {/* Toast container should be included once */}
+//       <ToastContainer position="top-right" autoClose={3000} />
+
+//       <Routes>
+//         {/* Public Routes */}
+//         <Route path="/signup" element={<Signup />} />
+//         <Route path="/login" element={<Login />} />
+
+//         {/* Protected Routes with toast */}
+//         <Route
+//           path="/"
+//           element={requireAuth(<Layout><Dashboard /></Layout>)}
+//         />
+//         <Route
+//           path="/dashboard"
+//           element={requireAuth(<Layout><Dashboard /></Layout>)}
+//         />
+//         <Route
+//           path="/employee"
+//           element={requireAuth(<Layout><Employee /></Layout>)}
+//         />
+//       </Routes>
+//     </Router>
+//   );
+// }
+
+// export default App;

@@ -355,7 +355,6 @@
 
 
 
-
 import React, { useMemo, useState } from "react";
 import EmployeeSearch from "../../components/Search";
 import {
@@ -398,6 +397,25 @@ const seed = [
 function cx(...classes) {
     return classes.filter(Boolean).join(" ");
 }
+
+// Array of attractive background colors for table rows
+const rowColors = [
+    "bg-blue-50 hover:bg-blue-100",
+    "bg-green-50 hover:bg-green-100",
+    "bg-purple-50 hover:bg-purple-100",
+    "bg-amber-50 hover:bg-amber-100",
+    "bg-cyan-50 hover:bg-cyan-100",
+    "bg-rose-50 hover:bg-rose-100",
+    "bg-emerald-50 hover:bg-emerald-100",
+    "bg-violet-50 hover:bg-violet-100",
+    "bg-orange-50 hover:bg-orange-100",
+    "bg-sky-50 hover:bg-sky-100",
+    "bg-fuchsia-50 hover:bg-fuchsia-100",
+    "bg-teal-50 hover:bg-teal-100",
+    "bg-pink-50 hover:bg-pink-100",
+    "bg-indigo-50 hover:bg-indigo-100",
+    "bg-lime-50 hover:bg-lime-100"
+];
 
 export default function EmployeePage() {
     const [query, setQuery] = useState("");
@@ -490,19 +508,13 @@ export default function EmployeePage() {
             </div>
 
             {/* Controls Card */}
-            <div className="mb-4 rounded-lg bg-white p-3 shadow-sm border border-gray-200">
-                <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-end">
-                    
-                    {/* Search Component - Full width */}
-                    <div className="flex-1 w-full">
-                        <EmployeeSearch
-                            query={query}
-                            onQueryChange={handleSearchChange}
-                        />
-                    </div>
-                    <div className="flex items-center gap-3">
+            <div className="mb-4 rounded-lg bg-white p-1 shadow-sm border border-gray-200">
+                <div className="flex flex-col  gap-4 md:flex-row md:items-center md:justify-end">
+
+                   
+                    <div className="flex items-center gap-3 ">
                         <select
-                            className="rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 focus:outline-none transition-colors"
+                            className="rounded-lg border border-gray-300 bg-white px-3 py-1 text-sm focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 focus:outline-none transition-colors"
                             value={pageSize}
                             onChange={(e) => {
                                 setPageSize(Number(e.target.value));
@@ -514,9 +526,15 @@ export default function EmployeePage() {
                             ))}
                         </select>
                     </div>
-
+                     {/* Search Component - Full width */}
                     <div className="">
-                        <Button>Create New</Button>
+                        <EmployeeSearch
+                            query={query}
+                            onQueryChange={handleSearchChange}
+                        />
+                    </div>
+                    <div className="py-1">
+                        <Button className=" py-1 text-sm ">Create New</Button>
                     </div>
                 </div>
             </div>
@@ -525,94 +543,99 @@ export default function EmployeePage() {
             <div className="rounded-lg bg-white shadow-sm overflow-hidden">
                 {/* Table */}
                 <div className="overflow-x-auto">
-                    <table className="w-full">
+                    <table className="w-full text-sm">
                         <thead className="bg-gray-50 border-b border-gray-200">
                             <tr>
-                                <th className="px-6 py-4 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">#</th>
-                                <th className="px-6 py-4 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">Name</th>
-                                <th className="px-6 py-4 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">Mobile No.</th>
-                                <th className="px-6 py-4 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">Email</th>
-                                <th className="px-6 py-4 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">Assign Outlet/HO</th>
-                                <th className="px-6 py-4 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">Status</th>
-                                <th className="px-6 py-4 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">Actions</th>
+                                <th className="px-3  text-left font-semibold text-gray-700 uppercase tracking-wider">#</th>
+                                <th className="px-3  text-left font-semibold text-gray-700 uppercase tracking-wider">Name</th>
+                                <th className="px-3  text-left font-semibold text-gray-700 uppercase tracking-wider">Mobile No.</th>
+                                <th className="px-3  text-left font-semibold text-gray-700 uppercase tracking-wider">Email</th>
+                                <th className="px-3  text-left font-semibold text-gray-700 uppercase tracking-wider">Assign Outlet/HO</th>
+                                <th className="px-3  text-left font-semibold text-gray-700 uppercase tracking-wider">Status</th>
+                                <th className="px-3  text-left font-semibold text-gray-700 uppercase tracking-wider">Actions</th>
                             </tr>
                         </thead>
                         <tbody className="divide-y divide-gray-100">
-                            {rows.map((e, idx) => (
-                                <tr key={e.id} className="hover:bg-gray-50 transition-colors">
-                                    <td className="px-6 py-4 text-sm text-gray-600 font-medium">{start + idx + 1}</td>
-                                    <td className="px-6 py-4">
-                                        <a
-                                            href={e.href || "#"}
-                                            className="text-sm font-medium text-indigo-600 hover:text-indigo-800 hover:underline transition-colors"
-                                        >
-                                            {e.name}
-                                        </a>
-                                    </td>
-                                    <td className="px-6 py-4 text-sm text-gray-700">{e.mobile}</td>
-                                    <td className="px-6 py-4 text-sm text-gray-700">
-                                        {e.email ? (
-                                            <span className="break-all">{e.email}</span>
-                                        ) : (
-                                            <span className="text-gray-400">—</span>
-                                        )}
-                                    </td>
-                                    <td className="px-6 py-4 text-sm text-gray-700">{e.outlet}</td>
-                                    <td className="px-6 py-4">
-                                        {e.active ? (
-                                            <span className="inline-flex items-center gap-1.5 rounded-full bg-green-50 px-3 py-1.5 text-xs font-medium text-green-700 ring-1 ring-inset ring-green-200">
-                                                <CheckCircleIcon className="h-3.5 w-3.5" />
-                                                Active
-                                            </span>
-                                        ) : (
-                                            <span className="inline-flex items-center gap-1.5 rounded-full bg-gray-100 px-3 py-1.5 text-xs font-medium text-gray-600 ring-1 ring-inset ring-gray-200">
-                                                Inactive
-                                            </span>
-                                        )}
-                                    </td>
-                                    <td className="px-6 py-4">
-                                        <div className="flex items-center gap-2">
-                                            <button
-                                                onClick={() => window.open(e.href || "#", "_blank")}
-                                                className="p-1.5 text-gray-400 hover:text-indigo-600 hover:bg-indigo-50 rounded-lg transition-colors"
-                                                title="Open"
+                            {rows.map((e, idx) => {
+                                const colorIndex = (start + idx) % rowColors.length;
+                                const rowColorClass = rowColors[colorIndex];
+                                
+                                return (
+                                    <tr key={e.id} className={`${rowColorClass} transition-colors`}>
+                                        <td className="px-3 py-1 text-gray-600 font-medium">{start + idx + 1}</td>
+                                        <td className="px-3 py-1">
+                                            <a
+                                                href={e.href || "#"}
+                                                className="font-medium text-indigo-600 hover:text-indigo-800 hover:underline transition-colors"
                                             >
-                                                <ArrowTopRightOnSquareIcon className="h-4 w-4" />
-                                            </button>
-                                            <button
-                                                onClick={() => alert(`Edit ${e.name}`)}
-                                                className="p-1.5 text-gray-400 hover:text-indigo-600 hover:bg-indigo-50 rounded-lg transition-colors"
-                                                title="Edit"
-                                            >
-                                                <PencilSquareIcon className="h-4 w-4" />
-                                            </button>
-                                            <button
-                                                onClick={() => alert(`Disable ${e.name}`)}
-                                                className="p-1.5 text-gray-400 hover:text-amber-600 hover:bg-amber-50 rounded-lg transition-colors"
-                                                title="Disable"
-                                            >
-                                                <NoSymbolIcon className="h-4 w-4" />
-                                            </button>
-                                            <button
-                                                onClick={() => {
-                                                    if (window.confirm(`Delete ${e.name}?`)) {
-                                                        alert("Implement delete logic");
-                                                    }
-                                                }}
-                                                className="p-1.5 text-gray-400 hover:text-rose-600 hover:bg-rose-50 rounded-lg transition-colors"
-                                                title="Delete"
-                                            >
-                                                <TrashIcon className="h-4 w-4" />
-                                            </button>
-                                        </div>
-                                    </td>
-                                </tr>
-                            ))}
+                                                {e.name}
+                                            </a>
+                                        </td>
+                                        <td className="px-3  text-gray-700">{e.mobile}</td>
+                                        <td className="px-3  text-gray-700">
+                                            {e.email ? (
+                                                <span className="break-all">{e.email}</span>
+                                            ) : (
+                                                <span className="text-gray-400">—</span>
+                                            )}
+                                        </td>
+                                        <td className="px-3  text-gray-700">{e.outlet}</td>
+                                        <td className="px-3 ">
+                                            {e.active ? (
+                                                <span className="inline-flex items-center gap-1 rounded-full bg-green-50 px-2 py-1 text-xs font-medium text-green-700 ring-1 ring-inset ring-green-200">
+                                                    <CheckCircleIcon className="h-3 w-3" />
+                                                    Active
+                                                </span>
+                                            ) : (
+                                                <span className="inline-flex items-center gap-1 rounded-full bg-gray-100 px-2 py-1 text-xs font-medium text-gray-600 ring-1 ring-inset ring-gray-200">
+                                                    Inactive
+                                                </span>
+                                            )}
+                                        </td>
+                                        <td className="px-3 ">
+                                            <div className="flex items-center gap-1">
+                                                <button
+                                                    onClick={() => window.open(e.href || "#", "_blank")}
+                                                    className="p-1 text-gray-400 hover:text-indigo-600 hover:bg-indigo-50 rounded transition-colors"
+                                                    title="Open"
+                                                >
+                                                    <ArrowTopRightOnSquareIcon className="h-3.5 w-3.5" />
+                                                </button>
+                                                <button
+                                                    onClick={() => alert(`Edit ${e.name}`)}
+                                                    className="p-1 text-gray-400 hover:text-indigo-600 hover:bg-indigo-50 rounded transition-colors"
+                                                    title="Edit"
+                                                >
+                                                    <PencilSquareIcon className="h-3.5 w-3.5" />
+                                                </button>
+                                                <button
+                                                    onClick={() => alert(`Disable ${e.name}`)}
+                                                    className="p-1 text-gray-400 hover:text-amber-600 hover:bg-amber-50 rounded transition-colors"
+                                                    title="Disable"
+                                                >
+                                                    <NoSymbolIcon className="h-3.5 w-3.5" />
+                                                </button>
+                                                <button
+                                                    onClick={() => {
+                                                        if (window.confirm(`Delete ${e.name}?`)) {
+                                                            alert("Implement delete logic");
+                                                        }
+                                                    }}
+                                                    className="p-1 text-gray-400 hover:text-rose-600 hover:bg-rose-50 rounded transition-colors"
+                                                    title="Delete"
+                                                >
+                                                    <TrashIcon className="h-3.5 w-3.5" />
+                                                </button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                );
+                            })}
                             {rows.length === 0 && (
                                 <tr>
-                                    <td className="px-6 py-12 text-center text-gray-500" colSpan={7}>
-                                        <div className="flex flex-col items-center gap-2">
-                                            <MagnifyingGlassIcon className="h-8 w-8 text-gray-300" />
+                                    <td className="px-3 py-8 text-center text-gray-500" colSpan={7}>
+                                        <div className="flex flex-col items-center gap-1">
+                                            <MagnifyingGlassIcon className="h-6 w-6 text-gray-300" />
                                             <p className="text-sm font-medium">No employees found</p>
                                             <p className="text-xs text-gray-400">Try adjusting your search query</p>
                                         </div>
@@ -622,10 +645,9 @@ export default function EmployeePage() {
                         </tbody>
                     </table>
                 </div>
-
                 {/* Enhanced Pagination */}
                 <div className="border-t border-gray-200 bg-white px-6 py-4">
-                    <div className="flex flex-col items-center justify-between gap-4 sm:flex-row">
+                    <div className="flex flex-row justify-between  gap-4 sm:flex-row">
                         {/* Showing entries info */}
                         <div className="text-sm text-gray-600">
                             Showing{" "}
@@ -636,7 +658,8 @@ export default function EmployeePage() {
                             {total === 1 ? 'entry' : 'entries'}
                         </div>
 
-                        {/* Attractive Pagination */}
+                        <div className="">
+                            {/* Attractive Pagination */}
                         <Pagination>
                             <PaginationContent>
                                 <PaginationItem>
@@ -682,6 +705,7 @@ export default function EmployeePage() {
                                 </PaginationItem>
                             </PaginationContent>
                         </Pagination>
+                        </div>
                     </div>
                 </div>
             </div>
