@@ -1,5 +1,7 @@
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route  } from "react-router-dom";
 import { useState } from "react";
+ import { toast, ToastContainer } from "react-toastify";
+
 import Home from "./pages/Home";
 import './app.css'
 import Signup from "./UserAuth/Signup";
@@ -7,6 +9,9 @@ import Login from "./UserAuth/Login";
 import Layout from "./components/Layout";
 import Employee from "./pages/Employee/Employee";
 import Dashboard from "./pages/Dashboard/Dashboard";
+import OutletForm from "./pages/Outlets/OutletsForm";
+import Outlets from "./pages/Outlets/Outlets";
+
 
 export default function App() {
   const [user, setUser] = useState(false); // 👈 auth state
