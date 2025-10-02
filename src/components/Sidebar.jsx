@@ -9,6 +9,7 @@ import {
   BarChart,
   Gift,
   Calculator,
+  Network
 } from "lucide-react";
 import { HiMenu } from "react-icons/hi";
 import { NavLink } from "react-router-dom";
@@ -25,6 +26,7 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
     { name: "Gifts", icon: Gift, path: "/gifts" },
     { name: "Calculator", icon: Calculator, path: "/calculator" },
     { name: "Settings", icon: Settings, path: "/settings" },
+   { name: "Outlets", icon: Network , path: "/outlets" },
   ];
 
   return (
