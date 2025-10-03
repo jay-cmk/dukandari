@@ -375,6 +375,7 @@ import {
     PaginationPrevious,
 } from '../../components/ui/pagination';
 import { Button } from "@/components/ui/button";
+import { useNavigate } from "react-router-dom";
 
 const seed = [
     { id: 1, name: "user30065b3", mobile: "+91-8954678888", email: "", outlet: "Prashant Corner", active: true, href: "#" },
@@ -418,6 +419,7 @@ const rowColors = [
 ];
 
 export default function EmployeePage() {
+    const navigation=useNavigate()
     const [query, setQuery] = useState("");
     const [pageSize, setPageSize] = useState(10);
     const [page, setPage] = useState(1);
@@ -496,8 +498,12 @@ export default function EmployeePage() {
         }
 
         return items;
-    };
 
+        
+    };
+    const handleCreateNew = () => {
+    navigation("/employee-form"); // replace with your actual route path
+  };
     const paginationItems = getPaginationItems();
 
     return (
@@ -534,7 +540,7 @@ export default function EmployeePage() {
                         />
                     </div>
                     <div className="py-1">
-                        <Button className=" py-1 text-sm ">Create New</Button>
+                        <Button onClick={handleCreateNew} className=" py-1 text-sm ">Create New</Button>
                     </div>
                 </div>
             </div>

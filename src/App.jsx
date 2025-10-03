@@ -11,6 +11,7 @@ import Employee from "./pages/Employee/Employee";
 import Dashboard from "./pages/Dashboard/Dashboard";
 import OutletForm from "./pages/Outlets/OutletsForm";
 import Outlets from "./pages/Outlets/Outlets";
+import EmployeeForm from "./pages/Employee/EmployeeForm";
 
 
 export default function App() {
@@ -28,7 +29,7 @@ export default function App() {
         <Route path="/employee" element={<Layout><Employee/></Layout>} />
         <Route path="/outlets" element={<Layout><Outlets/></Layout>} />
         <Route path="/outletsForm" element={<Layout><OutletForm/></Layout>} />
-        {/* <Route path="/dashboard" element={<Layout><Dashboard/></Layout>} /> */}
+        <Route path="/employee-form" element={<Layout><EmployeeForm/></Layout>} />
 
 
         
