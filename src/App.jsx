@@ -29,13 +29,10 @@ export default function App() {
         <Route path="/employee" element={<Layout><Employee/></Layout>} />
         <Route path="/outlets" element={<Layout><Outlets/></Layout>} />
         <Route path="/outletsForm" element={<Layout><OutletForm/></Layout>} />
-<<<<<<< HEAD
         <Route path="/employee-form" element={<Layout><EmployeeForm/></Layout>} />
-=======
         <Route path="/outlets/edit/:id" element={<Layout><OutletForm mode="edit"/></Layout>} />
         
         {/* <Route path="/dashboard" element={<Layout><Dashboard/></Layout>} /> */}
->>>>>>> 97759bbf13fced2fe720162e01b27a7d2b8d2cfd
 
 
         
