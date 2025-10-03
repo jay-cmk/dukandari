@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Dropdown from '../../components/Dropdown/Dropdown';
 import { validateField, validateForm } from '../../utils/validation';
+import { useNavigate, useLocation } from 'react-router-dom';
 
 const OutletForm = () => {
   const [activeTab, setActiveTab] = useState("outletDetails");
@@ -37,6 +38,27 @@ const OutletForm = () => {
 
   const [errors, setErrors] = useState({});
   const [touched, setTouched] = useState({});
+  const [isLoading, setIsLoading] = useState(false);
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  // Get data from navigation state
+  const outletData = location.state?.outletData;
+  const actualMode = outletData ? "edit" : "create";
+
+  // Load data for edit mode from navigation state
+  useEffect(() => {
+    if (actualMode === "edit" && outletData) {
+      // Ensure all fields have values, even if they're undefined in the passed data
+      const filledData = { ...formData };
+      Object.keys(outletData).forEach(key => {
+        if (outletData[key] !== undefined) {
+          filledData[key] = outletData[key];
+        }
+      });
+      setFormData(filledData);
+    }
+  }, [actualMode, outletData]);
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -45,7 +67,7 @@ const OutletForm = () => {
       [name]: type === "checkbox" ? checked : value,
     }));
 
-    if (touched[name] || value.length > 0) {
+    if (touched[name] || (value && value.length > 0)) {
       const error = validateField(name, value, formData);
       setErrors((prev) => ({ ...prev, [name]: error }));
     }
@@ -59,13 +81,15 @@ const OutletForm = () => {
   };
 
   useEffect(() => {
-    if (touched.gstin || formData.gstin.length > 0) {
-      const error = validateField("gstin", formData.gstin, formData);
+    // Fix: Check if gstin exists and has length property
+    const gstinValue = formData.gstin || "";
+    if (touched.gstin || gstinValue.length > 0) {
+      const error = validateField("gstin", gstinValue, formData);
       setErrors((prev) => ({ ...prev, gstin: error }));
     }
   }, [formData.gstType, formData.gstin, touched.gstin]);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const allTouched = {};
     Object.keys(formData).forEach((key) => {
@@ -77,8 +101,23 @@ const OutletForm = () => {
     setErrors(newErrors);
 
     if (Object.keys(newErrors).length === 0) {
-      console.log("Form Submitted:", formData);
-      alert("Form submitted successfully!");
+      setIsLoading(true);
+      try {
+        // Simulate API call - replace with your actual API
+        if (actualMode === "create") {
+          console.log("Creating outlet:", formData);
+          alert("Outlet created successfully!");
+        } else {
+          console.log("Updating outlet:", formData);
+          alert("Outlet updated successfully!");
+        }
+        navigate('/outlets');
+      } catch (error) {
+        console.error("Error saving outlet:", error);
+        alert("Error saving outlet data");
+      } finally {
+        setIsLoading(false);
+      }
     }
   };
 
@@ -87,13 +126,15 @@ const OutletForm = () => {
     setFormData((prev) => ({
       ...prev,
       gstType: value,
-      gstin: value === "UnRegistered" ? "" : prev.gstin,
+      gstin: value === "UnRegistered" ? "" : (prev.gstin || ""),
     }));
   };
 
   return (
     <div className="mx-auto p-8 bg-gray-300">
-      <h1 className="text-2xl font-bold mb-2">New Outlet</h1>
+      <h1 className="text-2xl font-bold mb-2">
+        {actualMode === "create" ? "New Outlet" : "Edit Outlet"}
+      </h1>
 
       <div className="bg-white border p-2 pl-4 pr-4 rounded-lg">
         <div className="flex border-b mb-4 p-5 bg-white">
@@ -128,7 +169,7 @@ const OutletForm = () => {
                   </label>
                   <Dropdown
                     name="outletType"
-                    value={formData.outletType}
+                    value={formData.outletType || ""}
                     onChange={handleChange}
                     options={[
                       { value: 'Branch', label: 'Branch' },
@@ -143,7 +184,7 @@ const OutletForm = () => {
                   <input
                     type="text"
                     name="name"
-                    value={formData.name}
+                    value={formData.name || ""}
                     onChange={handleChange}
                     onBlur={handleBlur}
                     className="w-full border p-2 rounded text-sm hover:border-blue-600 transition-colors duration-200"
@@ -160,7 +201,7 @@ const OutletForm = () => {
                   <input
                     type="text"
                     name="displayName"
-                    value={formData.displayName}
+                    value={formData.displayName || ""}
                     onChange={handleChange}
                     onBlur={handleBlur}
                     className="w-full border p-2 rounded text-sm hover:border-blue-600 transition-colors duration-200"
@@ -179,7 +220,7 @@ const OutletForm = () => {
                   <input
                     type="text"
                     name="contactName"
-                    value={formData.contactName}
+                    value={formData.contactName || ""}
                     onChange={handleChange}
                     className="w-full border p-2 rounded text-sm hover:border-blue-600 transition-colors duration-200"
                     placeholder="Contact Name"
@@ -200,7 +241,7 @@ const OutletForm = () => {
                     <input
                       type="text"
                       name="mobileNo"
-                      value={formData.mobileNo}
+                      value={formData.mobileNo || ""}
                       onChange={handleChange}
                       onBlur={handleBlur}
                       className="w-full border p-2 rounded-r text-sm hover:border-blue-600 transition-colors duration-200"
@@ -218,7 +259,7 @@ const OutletForm = () => {
                   <input
                     type="text"
                     name="telephoneNo"
-                    value={formData.telephoneNo}
+                    value={formData.telephoneNo || ""}
                     onChange={handleChange}
                     className="w-full border p-2 rounded text-sm hover:border-blue-600 transition-colors duration-200"
                     placeholder="Telephone No."
@@ -231,7 +272,7 @@ const OutletForm = () => {
                   <input
                     type="email"
                     name="email"
-                    value={formData.email}
+                    value={formData.email || ""}
                     onChange={handleChange}
                     onBlur={handleBlur}
                     className="w-full border p-2 rounded text-sm hover:border-blue-600 transition-colors duration-200"
@@ -248,7 +289,7 @@ const OutletForm = () => {
                   <input
                     type="text"
                     name="userName"
-                    value={formData.userName}
+                    value={formData.userName || ""}
                     onChange={handleChange}
                     onBlur={handleBlur}
                     className="w-full border p-2 rounded text-sm hover:border-blue-600 transition-colors duration-200"
@@ -264,12 +305,12 @@ const OutletForm = () => {
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-4">
                 <div>
                   <label className="block mb-1 text-sm font-semibold text-black">
-                    Password<span className="text-red-500">*</span>
+                    Password{actualMode === "create" && <span className="text-red-500">*</span>}
                   </label>
                   <input
                     type="password"
                     name="password"
-                    value={formData.password}
+                    value={formData.password || ""}
                     onChange={handleChange}
                     onBlur={handleBlur}
                     className="w-full border p-2 rounded text-sm hover:border-blue-600 transition-colors duration-200"
@@ -285,7 +326,7 @@ const OutletForm = () => {
                   </label>
                   <Dropdown
                     name="yearInterval"
-                    value={formData.yearInterval}
+                    value={formData.yearInterval || ""}
                     onChange={handleChange}
                     options={[
                       { value: '2023–2026', label: '2023–2026' },
@@ -299,7 +340,7 @@ const OutletForm = () => {
                   </label>
                   <Dropdown
                     name="gstType"
-                    value={formData.gstType}
+                    value={formData.gstType || ""}
                     onChange={handleGstTypeChange}
                     options={[
                       { value: 'UnRegistered', label: 'UnRegistered' },
@@ -315,7 +356,7 @@ const OutletForm = () => {
                   <input
                     type="text"
                     name="gstin"
-                    value={formData.gstin}
+                    value={formData.gstin || ""}
                     onChange={handleChange}
                     onBlur={handleBlur}
                     className="w-full border p-2 rounded text-sm hover:border-blue-600 transition-colors duration-200"
@@ -339,7 +380,7 @@ const OutletForm = () => {
                   <input
                     type="text"
                     name="panNo"
-                    value={formData.panNo}
+                    value={formData.panNo || ""}
                     onChange={handleChange}
                     onBlur={handleBlur}
                     className="w-full border p-2 rounded text-sm hover:border-blue-600 transition-colors duration-200"
@@ -356,7 +397,7 @@ const OutletForm = () => {
                   <input
                     type="text"
                     name="website"
-                    value={formData.website}
+                    value={formData.website || ""}
                     onChange={handleChange}
                     className="w-full border p-2 rounded text-sm hover:border-blue-600 transition-colors duration-200"
                     placeholder="Website"
@@ -367,7 +408,7 @@ const OutletForm = () => {
                     <input
                       type="checkbox"
                       name="haveFssaiNo"
-                      checked={formData.haveFssaiNo}
+                      checked={formData.haveFssaiNo || false}
                       onChange={handleChange}
                       className="mr-2 hover:border-blue-600"
                     />
@@ -379,7 +420,7 @@ const OutletForm = () => {
                     <input
                       type="text"
                       name="fssaiNo"
-                      value={formData.fssaiNo}
+                      value={formData.fssaiNo || ""}
                       onChange={handleChange}
                       onBlur={handleBlur}
                       className="w-full border p-2 rounded text-sm mt-1 hover:border-blue-600 transition-colors duration-200"
@@ -390,7 +431,7 @@ const OutletForm = () => {
                     <p className="text-red-500 text-xs mt-1">{errors.fssaiNo}</p>
                   )}
                 </div>
-                <div></div> {/* Empty column for alignment */}
+                <div></div>
               </div>
 
               {/* Row 5: Address, Select Country, Select State, Bank Name */}
@@ -402,7 +443,7 @@ const OutletForm = () => {
                   <input
                     type="text"
                     name="address"
-                    value={formData.address}
+                    value={formData.address || ""}
                     onChange={handleChange}
                     onBlur={handleBlur}
                     className="w-full border p-2 rounded text-sm hover:border-blue-600 transition-colors duration-200"
@@ -418,7 +459,7 @@ const OutletForm = () => {
                   </label>
                   <Dropdown
                     name="country"
-                    value={formData.country}
+                    value={formData.country || ""}
                     onChange={handleChange}
                     options={[
                       { value: 'InGo', label: 'InGo' },
@@ -433,7 +474,7 @@ const OutletForm = () => {
                   </label>
                   <Dropdown
                     name="state"
-                    value={formData.state}
+                    value={formData.state || ""}
                     onChange={handleChange}
                     options={[
                       { value: 'Guten', label: 'Guten' },
@@ -449,7 +490,7 @@ const OutletForm = () => {
                   <input
                     type="text"
                     name="bankName"
-                    value={formData.bankName}
+                    value={formData.bankName || ""}
                     onChange={handleChange}
                     className="w-full border p-2 rounded text-sm hover:border-blue-600 transition-colors duration-200"
                     placeholder="Bank Name"
@@ -466,7 +507,7 @@ const OutletForm = () => {
                   <input
                     type="text"
                     name="zipCode"
-                    value={formData.zipCode}
+                    value={formData.zipCode || ""}
                     onChange={handleChange}
                     className="w-full border p-2 rounded text-sm hover:border-blue-600 transition-colors duration-200"
                     placeholder="ZIP/Postal Code"
@@ -478,7 +519,7 @@ const OutletForm = () => {
                   </label>
                   <Dropdown
                     name="bank"
-                    value={formData.bank}
+                    value={formData.bank || ""}
                     onChange={handleChange}
                     options={[
                       { value: '', label: 'Select Bank' },
@@ -494,7 +535,7 @@ const OutletForm = () => {
                   <input
                     type="text"
                     name="ifscCode"
-                    value={formData.ifscCode}
+                    value={formData.ifscCode || ""}
                     onChange={handleChange}
                     className="w-full border p-2 rounded text-sm hover:border-blue-600 transition-colors duration-200"
                     placeholder="IFSC Code"
@@ -506,7 +547,7 @@ const OutletForm = () => {
                   </label>
                   <Dropdown
                     name="city"
-                    value={formData.city}
+                    value={formData.city || ""}
                     onChange={handleChange}
                     options={[
                       { value: 'Anwedabad', label: 'Anwedabad' },
@@ -526,7 +567,7 @@ const OutletForm = () => {
                   <input
                     type="text"
                     name="branchName"
-                    value={formData.branchName}
+                    value={formData.branchName || ""}
                     onChange={handleChange}
                     className="w-full border p-2 rounded text-sm hover:border-blue-600 transition-colors duration-200"
                     placeholder="Branch Name"
@@ -539,7 +580,7 @@ const OutletForm = () => {
                   <input
                     type="text"
                     name="accountNo"
-                    value={formData.accountNo}
+                    value={formData.accountNo || ""}
                     onChange={handleChange}
                     className="w-full border p-2 rounded text-sm hover:border-blue-600 transition-colors duration-200"
                     placeholder="Account No."
@@ -552,7 +593,7 @@ const OutletForm = () => {
                   <input
                     type="text"
                     name="accountHolderName"
-                    value={formData.accountHolderName}
+                    value={formData.accountHolderName || ""}
                     onChange={handleChange}
                     className="w-full border p-2 rounded text-sm hover:border-blue-600 transition-colors duration-200"
                     placeholder="Account Holder Name"
@@ -565,7 +606,7 @@ const OutletForm = () => {
                   <input
                     type="text"
                     name="printerName"
-                    value={formData.printerName}
+                    value={formData.printerName || ""}
                     onChange={handleChange}
                     className="w-full border p-2 rounded text-sm hover:border-blue-600 transition-colors duration-200"
                     placeholder="Printer Name"
@@ -583,7 +624,7 @@ const OutletForm = () => {
                 </label>
                 <textarea
                   name="address"
-                  value={formData.address}
+                  value={formData.address || ""}
                   onChange={handleChange}
                   onBlur={handleBlur}
                   className="w-full border p-2 rounded text-sm hover:border-blue-600 transition-colors duration-200"
@@ -607,15 +648,18 @@ const OutletForm = () => {
           <div className="flex justify-end space-x-2 mt-4">
             <button
               type="button"
+              onClick={() => navigate(-1)}
               className="px-4 py-2 border rounded bg-gray-200 text-sm hover:border-blue-600 transition-colors duration-200"
+              disabled={isLoading}
             >
               Cancel
             </button>
             <button
               type="submit"
               className="px-4 py-2 border rounded bg-blue-500 text-white text-sm hover:border-blue-600 transition-colors duration-200"
+              disabled={isLoading}
             >
-              Submit
+              {isLoading ? "Saving..." : (actualMode === "create" ? "Create" : "Update")}
             </button>
           </div>
         </form>
