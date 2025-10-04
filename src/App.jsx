@@ -12,6 +12,8 @@ import Dashboard from "./pages/Dashboard/Dashboard";
 import OutletForm from "./pages/Outlets/OutletsForm";
 import Outlets from "./pages/Outlets/Outlets";
 import EmployeeForm from "./pages/Employee/EmployeeForm";
+import CustomerDetails from "./pages/Employee/Customer/CustomerDetails";
+import OutletDetails from "./pages/Outlets/OutletsDetails";
 
 
 export default function App() {
@@ -31,6 +33,12 @@ export default function App() {
         <Route path="/outletsForm" element={<Layout><OutletForm/></Layout>} />
         <Route path="/employee-form" element={<Layout><EmployeeForm/></Layout>} />
         <Route path="/outlets/edit/:id" element={<Layout><OutletForm mode="edit"/></Layout>} />
+        <Route path="/employee/edit/:id" element={<Layout><EmployeeForm mode="edit"/></Layout>} />
+        <Route path="/employee/:id" element={<Layout><CustomerDetails /></Layout>} />
+        <Route path="/outlets/:id" element={<Layout><OutletDetails /></Layout>} />
+
+
+
         
         {/* <Route path="/dashboard" element={<Layout><Dashboard/></Layout>} /> */}
 

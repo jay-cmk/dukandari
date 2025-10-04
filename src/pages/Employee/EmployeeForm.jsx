@@ -1,10 +1,16 @@
 import React, { useState, useEffect } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import Dropdown from '../../components/Dropdown/Dropdown';
 import { validateField, validateForm } from '../../utils/validation';
 
 const EmployeeForm = () => {
+    const location = useLocation();
+    const navigate = useNavigate();
     const [activeTab, setActiveTab] = useState("employeeDetails");
     const [showAuthentication, setShowAuthentication] = useState(false);
+    const [isEdit, setIsEdit] = useState(false);
+    const [employeeId, setEmployeeId] = useState(null);
+    
     const [formData, setFormData] = useState({
         // Employee Details
         name: "",
@@ -47,6 +53,27 @@ const EmployeeForm = () => {
     const [errors, setErrors] = useState({});
     const [touched, setTouched] = useState({});
 
+    // Initialize form data based on mode (create/edit)
+    useEffect(() => {
+        if (location.state) {
+            const { employeeData, isEdit: editMode, employeeId: id } = location.state;
+            
+            if (editMode && employeeData) {
+                setIsEdit(true);
+                setEmployeeId(id);
+                setFormData(prev => ({
+                    ...prev,
+                    ...employeeData
+                }));
+                
+                // Show authentication section if credentials exist
+                if (employeeData.userName || employeeData.role) {
+                    setShowAuthentication(true);
+                }
+            }
+        }
+    }, [location.state]);
+
     const handleChange = (e) => {
         const { name, value, type, checked } = e.target;
 
@@ -82,6 +109,10 @@ const EmployeeForm = () => {
         setShowAuthentication(!showAuthentication);
     };
 
+    const handleCancel = () => {
+        navigate(-1); // Go back to previous page
+    };
+
     const handleSubmit = (e) => {
         e.preventDefault();
         const allTouched = {};
@@ -94,14 +125,24 @@ const EmployeeForm = () => {
         setErrors(newErrors);
 
         if (Object.keys(newErrors).length === 0) {
-            console.log("Form Submitted:", formData);
-            alert("Employee added successfully!");
+            if (isEdit) {
+                console.log("Updating Employee:", { id: employeeId, ...formData });
+                alert("Employee updated successfully!");
+            } else {
+                console.log("Creating Employee:", formData);
+                alert("Employee added successfully!");
+            }
+            
+            // Navigate back to employee list after successful submission
+            navigate("/employees");
         }
     };
 
     return (
         <div className="mx-auto p-4 bg-gray-300">
-            <h1 className="text-2xl font-bold mb-2">New Employee</h1>
+            <h1 className="text-2xl font-bold mb-2">
+                {isEdit ? "Edit Employee" : "New Employee"}
+            </h1>
 
             <div className="bg-white border p-2 pl-4 pr-4 rounded-lg">
                 <form onSubmit={handleSubmit}>
@@ -182,9 +223,9 @@ const EmployeeForm = () => {
                                         <p className="text-red-500 text-xs mt-1">{errors.panNo}</p>
                                     )}
                                 </div>
+                                
                                 {/* Row 2: Select Group (conditionally rendered) and Checkboxes */}
                                 <div className="grid grid-cols-1 md:grid-cols-1 gap-4 mb-4">
-                                    {/* Select Group - appears only when isManager is true */}
                                     {formData.isManager && (
                                         <div>
                                             <label className="block mb-1 text-sm font-semibold text-black">
@@ -206,8 +247,6 @@ const EmployeeForm = () => {
                                         </div>
                                     )}
                                 </div>
-
-
 
                                 {/* Checkboxes */}
                                 <div className="flex items-center">
@@ -324,18 +363,17 @@ const EmployeeForm = () => {
                                         name="zipCode"
                                         value={formData.zipCode}
                                         onChange={handleChange}
+                                        onBlur={handleBlur}
                                         className="w-full border p-2 rounded text-sm hover:border-blue-600 transition-colors duration-200 h-9"
                                         placeholder="ZIP/Postal code"
                                     />
-                                     {errors.pincode && (
-                                        <p className="text-red-500 text-xs mt-1">{errors.pincode}</p>
+                                    {errors.zipCode && (
+                                        <p className="text-red-500 text-xs mt-1">{errors.zipCode}</p>
                                     )}
                                 </div>
                             </div>
 
                             {/* Bank Details Section */}
-
-                            {/* Row 4: Bank Name, Branch Name, Account No., IFSC Code, Account Holder Name */}
                             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4 mb-4">
                                 <div>
                                     <label className="block mb-1 text-sm font-semibold text-black">
@@ -346,10 +384,11 @@ const EmployeeForm = () => {
                                         name="bankName"
                                         value={formData.bankName}
                                         onChange={handleChange}
+                                        onBlur={handleBlur}
                                         className="w-full border p-2 rounded text-sm hover:border-blue-600 transition-colors duration-200 h-9"
                                         placeholder="BankName"
                                     />
-                                     {errors.bankName && (
+                                    {errors.bankName && (
                                         <p className="text-red-500 text-xs mt-1">{errors.bankName}</p>
                                     )}
                                 </div>
@@ -362,10 +401,11 @@ const EmployeeForm = () => {
                                         name="branchName"
                                         value={formData.branchName}
                                         onChange={handleChange}
+                                        onBlur={handleBlur}
                                         className="w-full border p-2 rounded text-sm hover:border-blue-600 transition-colors duration-200 h-9"
                                         placeholder="Branch Name"
                                     />
-                                      {errors.branchName && (
+                                    {errors.branchName && (
                                         <p className="text-red-500 text-xs mt-1">{errors.branchName}</p>
                                     )}
                                 </div>
@@ -378,10 +418,11 @@ const EmployeeForm = () => {
                                         name="accountNo"
                                         value={formData.accountNo}
                                         onChange={handleChange}
+                                        onBlur={handleBlur}
                                         className="w-full border p-2 rounded text-sm hover:border-blue-600 transition-colors duration-200 h-9"
                                         placeholder="Account No."
                                     />
-                                       {errors.accountNo && (
+                                    {errors.accountNo && (
                                         <p className="text-red-500 text-xs mt-1">{errors.accountNo}</p>
                                     )}
                                 </div>
@@ -394,10 +435,11 @@ const EmployeeForm = () => {
                                         name="ifscCode"
                                         value={formData.ifscCode}
                                         onChange={handleChange}
+                                        onBlur={handleBlur}
                                         className="w-full border p-2 rounded text-sm hover:border-blue-600 transition-colors duration-200 h-9"
                                         placeholder="IFSC Code"
                                     />
-                                        {errors.ifscCode && (
+                                    {errors.ifscCode && (
                                         <p className="text-red-500 text-xs mt-1">{errors.ifscCode}</p>
                                     )}
                                 </div>
@@ -410,21 +452,17 @@ const EmployeeForm = () => {
                                         name="accountHolderName"
                                         value={formData.accountHolderName}
                                         onChange={handleChange}
+                                        onBlur={handleBlur}
                                         className="w-full border p-2 rounded text-sm hover:border-blue-600 transition-colors duration-200 h-9"
                                         placeholder="Account Holder Name"
                                     />
-                                       {errors.accountHolderName && (
+                                    {errors.accountHolderName && (
                                         <p className="text-red-500 text-xs mt-1">{errors.accountHolderName}</p>
                                     )}
                                 </div>
                             </div>
 
-                            {/* Row 5: Swift Code and empty columns for alignment */}
-                           
-
                             {/* Employment Details Section */}
-
-                            {/* Row 6: Wages, Commission (%), Extra Wages, Target, Select Branch */}
                             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4 mb-4">
                                 <div>
                                     <label className="block mb-1 text-sm font-semibold text-black">
@@ -435,6 +473,7 @@ const EmployeeForm = () => {
                                         name="wages"
                                         value={formData.wages}
                                         onChange={handleChange}
+                                        onBlur={handleBlur}
                                         className="w-full border p-2 rounded text-sm hover:border-blue-600 transition-colors duration-200 h-9"
                                         placeholder="Wages"
                                     />
@@ -451,10 +490,11 @@ const EmployeeForm = () => {
                                         name="commission"
                                         value={formData.commission}
                                         onChange={handleChange}
+                                        onBlur={handleBlur}
                                         className="w-full border p-2 rounded text-sm hover:border-blue-600 transition-colors duration-200 h-9"
                                         placeholder="Commission (%)"
                                     />
-                                     {errors.commission && (
+                                    {errors.commission && (
                                         <p className="text-red-500 text-xs mt-1">{errors.commission}</p>
                                     )}
                                 </div>
@@ -467,10 +507,11 @@ const EmployeeForm = () => {
                                         name="extraWages"
                                         value={formData.extraWages}
                                         onChange={handleChange}
+                                        onBlur={handleBlur}
                                         className="w-full border p-2 rounded text-sm hover:border-blue-600 transition-colors duration-200 h-9"
                                         placeholder="Extra Wages"
                                     />
-                                      {errors.extraWages && (
+                                    {errors.extraWages && (
                                         <p className="text-red-500 text-xs mt-1">{errors.extraWages}</p>
                                     )}
                                 </div>
@@ -483,10 +524,11 @@ const EmployeeForm = () => {
                                         name="target"
                                         value={formData.target}
                                         onChange={handleChange}
+                                        onBlur={handleBlur}
                                         className="w-full border p-2 rounded text-sm hover:border-blue-600 transition-colors duration-200 h-9"
                                         placeholder="Target"
                                     />
-                                       {errors.target && (
+                                    {errors.target && (
                                         <p className="text-red-500 text-xs mt-1">{errors.target}</p>
                                     )}
                                 </div>
@@ -508,7 +550,7 @@ const EmployeeForm = () => {
                                 </div>
                             </div>
 
-                            {/* Authentication Details Section - Above the button with animation */}
+                            {/* Authentication Details Section */}
                             <div className={`transition-all duration-300 ease-in-out overflow-hidden ${showAuthentication ? 'max-h-96 opacity-100 mb-6 border-b pb-6' : 'max-h-0 opacity-0'
                                 }`}>
                                 {showAuthentication && (
@@ -517,7 +559,7 @@ const EmployeeForm = () => {
                                         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                                             <div>
                                                 <label className="block mb-1 text-sm font-semibold text-black">
-                                                    User Name<span className="text-red-500">*</span>
+                                                    User Name{!isEdit && <span className="text-red-500">*</span>}
                                                 </label>
                                                 <input
                                                     type="text"
@@ -534,7 +576,7 @@ const EmployeeForm = () => {
                                             </div>
                                             <div>
                                                 <label className="block mb-1 text-sm font-semibold text-black">
-                                                    Password<span className="text-red-500">*</span>
+                                                    Password{!isEdit && <span className="text-red-500">*</span>}
                                                 </label>
                                                 <input
                                                     type="password"
@@ -543,7 +585,7 @@ const EmployeeForm = () => {
                                                     onChange={handleChange}
                                                     onBlur={handleBlur}
                                                     className="w-full border p-2 rounded text-sm hover:border-blue-600 transition-colors duration-200 h-9"
-                                                    placeholder="Password"
+                                                    placeholder={isEdit ? "Leave blank to keep current" : "Password"}
                                                 />
                                                 {errors.password && (
                                                     <p className="text-red-500 text-xs mt-1">{errors.password}</p>
@@ -551,7 +593,7 @@ const EmployeeForm = () => {
                                             </div>
                                             <div>
                                                 <label className="block mb-1 text-sm font-semibold text-black">
-                                                    Select Role<span className="text-red-500">*</span>
+                                                    Select Role{!isEdit && <span className="text-red-500">*</span>}
                                                 </label>
                                                 <div className="h-9">
                                                     <Dropdown
@@ -591,6 +633,7 @@ const EmployeeForm = () => {
                     <div className="flex justify-end space-x-2 mt-4">
                         <button
                             type="button"
+                            onClick={handleCancel}
                             className="px-4 py-2 border rounded bg-gray-200 text-sm hover:border-blue-600 transition-colors duration-200 h-9"
                         >
                             Cancel
@@ -599,7 +642,7 @@ const EmployeeForm = () => {
                             type="submit"
                             className="px-4 py-2 border rounded bg-blue-500 text-white text-sm hover:border-blue-600 transition-colors duration-200 h-9"
                         >
-                            Submit
+                            {isEdit ? 'Update' : 'Submit'}
                         </button>
                     </div>
                 </form>
