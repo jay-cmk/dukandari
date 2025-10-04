@@ -85,6 +85,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { HiOutlineSearch, HiOutlineCalendar } from "react-icons/hi";
 import { MdSupportAgent } from "react-icons/md";
 import { Plus, ChevronDown } from "lucide-react";
+import FileFormatSelector from "./pdf/FileFormatSelector";
 
 
 const Navbar = ({ sidebarOpen, toggleSidebar }) => {
@@ -152,8 +153,10 @@ const Navbar = ({ sidebarOpen, toggleSidebar }) => {
         </div>
         {/* right section */}
         <div className="flex items-center space-x-4 text-gray-300">
+      
           {/* Company Number */}
           <div className="flex items-center space-x-2">
+
             <MdSupportAgent className="text-lg" />
             <span className="text-sm font-medium">
               +91 80 00877 644{" "}

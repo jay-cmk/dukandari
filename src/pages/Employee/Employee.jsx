@@ -377,6 +377,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
 import { handleEditEmployee } from "@/utils/helpers";
+import FileFormatSelector from "@/components/pdf/FileFormatSelector";
 
 const seed = [
     { id: 1, name: "user30065b3", mobile: "+91-8954678888", email: "", outlet: "Prashant Corner", active: true, href: "#" },
@@ -478,6 +479,9 @@ export default function EmployeePage() {
 
             <div className="mb-4 rounded-lg bg-white p-1 shadow-sm border border-gray-200">
                 <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-end">
+                     <div>
+                                <FileFormatSelector/>
+                              </div>
                     <div className="flex items-center gap-3 ">
                         <select
                             className="rounded-lg border border-gray-300 bg-white px-3 py-1 text-sm focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 focus:outline-none transition-colors"

@@ -14,6 +14,7 @@ import Outlets from "./pages/Outlets/Outlets";
 import EmployeeForm from "./pages/Employee/EmployeeForm";
 import CustomerDetails from "./pages/Employee/Customer/CustomerDetails";
 import OutletDetails from "./pages/Outlets/OutletsDetails";
+import CategoryBrand from "./pages/Inventry/CategoryBrand";
 
 
 export default function App() {
@@ -36,6 +37,8 @@ export default function App() {
         <Route path="/employee/edit/:id" element={<Layout><EmployeeForm mode="edit"/></Layout>} />
         <Route path="/employee/:id" element={<Layout><CustomerDetails /></Layout>} />
         <Route path="/outlets/:id" element={<Layout><OutletDetails /></Layout>} />
+        <Route path="/inventory/category-brand" element={<Layout><CategoryBrand/></Layout>} />
+
 
 
 
