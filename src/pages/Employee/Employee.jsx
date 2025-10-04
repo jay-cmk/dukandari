@@ -375,6 +375,8 @@ import {
     PaginationPrevious,
 } from '../../components/ui/pagination';
 import { Button } from "@/components/ui/button";
+import { useNavigate } from "react-router-dom";
+import { handleEditEmployee } from "@/utils/helpers";
 
 const seed = [
     { id: 1, name: "user30065b3", mobile: "+91-8954678888", email: "", outlet: "Prashant Corner", active: true, href: "#" },
@@ -382,23 +384,13 @@ const seed = [
     { id: 3, name: "ho1", mobile: "+91-6886073686", email: "", outlet: "Prashant Corner", active: true, href: "#" },
     { id: 4, name: "emp01", mobile: "+91-6886073687", email: "", outlet: "PCMH1", active: true, href: "#" },
     { id: 5, name: "newemp0409", mobile: "+91-7444411111", email: "", outlet: "iuc1b0906", active: true, href: "#" },
-    { id: 6, name: "iucnew", mobile: "+91-7859612366", email: "", outlet: "Prashant Corner", active: true, href: "#" },
-    { id: 7, name: "ayushijayswal", mobile: "+91-7485968866", email: "", outlet: "iuc2b0906", active: true, href: "#" },
-    { id: 8, name: "aaa", mobile: "+91-9981231121", email: "", outlet: "Prashant Corner", active: true, href: "#" },
-    { id: 9, name: "asdasdad", mobile: "+91-9785424112", email: "", outlet: "Prashant Corner", active: true, href: "#" },
-    { id: 10, name: "Yash", mobile: "+91-9658852224", email: "", outlet: "Prashant Corner", active: true, href: "#" },
-    { id: 11, name: "test", mobile: "+91-9000006031", email: "dlp19@gmail.com", outlet: "Prashant Corner", active: true, href: "#" },
-    { id: 12, name: "sdfghgjghgfdsdfg", mobile: "+91-7474747888", email: "", outlet: "Prashant Corner", active: true, href: "#" },
-    { id: 13, name: "newemp2407", mobile: "+91-7485555666", email: "", outlet: "Prashant Corner", active: true, href: "#" },
-    { id: 14, name: "dsfghjhgfgdsf", mobile: "+91-7441111111", email: "", outlet: "iuc1b0906", active: true, href: "#" },
-    { id: 15, name: "kiyfykhjk", mobile: "+91-7485958555", email: "", outlet: "Prashant Corner", active: true, href: "#" },
+    // ... add other employees
 ];
 
 function cx(...classes) {
     return classes.filter(Boolean).join(" ");
 }
 
-// Array of attractive background colors for table rows
 const rowColors = [
     "bg-blue-50 hover:bg-blue-100",
     "bg-green-50 hover:bg-green-100",
@@ -418,6 +410,7 @@ const rowColors = [
 ];
 
 export default function EmployeePage() {
+    const navigate = useNavigate();
     const [query, setQuery] = useState("");
     const [pageSize, setPageSize] = useState(10);
     const [page, setPage] = useState(1);
@@ -443,58 +436,35 @@ export default function EmployeePage() {
         setPage(1);
     };
 
-    const handlePageSizeChange = (newPageSize) => {
-        setPageSize(newPageSize);
-        setPage(1);
+    const handleCreateNew = () => {
+        navigate("/employee-form", { state: { mode: "create" } });
     };
 
-    // Generate pagination items with smart ellipsis
+    const handleEdit = (employee) => {
+        navigate(`/employee/edit/${employee.id}`, { state: { mode: "edit" } });
+    };
+
     const getPaginationItems = () => {
         const items = [];
         const maxVisiblePages = 5;
 
         if (totalPages <= maxVisiblePages) {
-            // Show all pages if total pages is small
             for (let i = 1; i <= totalPages; i++) {
                 items.push(i);
             }
         } else {
-            // Always show first page
             items.push(1);
-
-            // Calculate start and end of visible pages
             let startPage = Math.max(2, currentPage - 1);
             let endPage = Math.min(totalPages - 1, currentPage + 1);
 
-            // Adjust if we're at the beginning
-            if (currentPage <= 3) {
-                endPage = 4;
-            }
+            if (currentPage <= 3) endPage = 4;
+            if (currentPage >= totalPages - 2) startPage = totalPages - 3;
 
-            // Adjust if we're at the end
-            if (currentPage >= totalPages - 2) {
-                startPage = totalPages - 3;
-            }
-
-            // Add ellipsis after first page if needed
-            if (startPage > 2) {
-                items.push('ellipsis-start');
-            }
-
-            // Add middle pages
-            for (let i = startPage; i <= endPage; i++) {
-                items.push(i);
-            }
-
-            // Add ellipsis before last page if needed
-            if (endPage < totalPages - 1) {
-                items.push('ellipsis-end');
-            }
-
-            // Always show last page
+            if (startPage > 2) items.push('ellipsis-start');
+            for (let i = startPage; i <= endPage; i++) items.push(i);
+            if (endPage < totalPages - 1) items.push('ellipsis-end');
             items.push(totalPages);
         }
-
         return items;
     };
 
@@ -502,128 +472,85 @@ export default function EmployeePage() {
 
     return (
         <div className="min-h-screen bg-gray-50 p-2 md:p-3">
-            {/* Header */}
             <div className="mb-3">
                 <h1 className="text-2xl font-bold text-gray-900">Employees</h1>
             </div>
 
-            {/* Controls Card */}
             <div className="mb-4 rounded-lg bg-white p-1 shadow-sm border border-gray-200">
-                <div className="flex flex-col  gap-4 md:flex-row md:items-center md:justify-end">
-
-                   
+                <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-end">
                     <div className="flex items-center gap-3 ">
                         <select
                             className="rounded-lg border border-gray-300 bg-white px-3 py-1 text-sm focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 focus:outline-none transition-colors"
                             value={pageSize}
-                            onChange={(e) => {
-                                setPageSize(Number(e.target.value));
-                                setPage(1);
-                            }}
+                            onChange={(e) => { setPageSize(Number(e.target.value)); setPage(1); }}
                         >
                             {[10, 15, 20, 25, 50].map((n) => (
                                 <option key={n} value={n}>{n}</option>
                             ))}
                         </select>
                     </div>
-                     {/* Search Component - Full width */}
                     <div className="">
-                        <EmployeeSearch
-                            query={query}
-                            onQueryChange={handleSearchChange}
-                        />
+                        <EmployeeSearch query={query} onQueryChange={handleSearchChange} />
                     </div>
                     <div className="py-1">
-                        <Button className=" py-1 text-sm ">Create New</Button>
+                        <Button onClick={handleCreateNew} className="py-1 text-sm">Create New</Button>
                     </div>
                 </div>
             </div>
 
-            {/* Table Card */}
             <div className="rounded-lg bg-white shadow-sm overflow-hidden">
-                {/* Table */}
                 <div className="overflow-x-auto">
                     <table className="w-full text-sm">
                         <thead className="bg-gray-50 border-b border-gray-200">
                             <tr>
-                                <th className="px-3  text-left font-semibold text-gray-700 uppercase tracking-wider">#</th>
-                                <th className="px-3  text-left font-semibold text-gray-700 uppercase tracking-wider">Name</th>
-                                <th className="px-3  text-left font-semibold text-gray-700 uppercase tracking-wider">Mobile No.</th>
-                                <th className="px-3  text-left font-semibold text-gray-700 uppercase tracking-wider">Email</th>
-                                <th className="px-3  text-left font-semibold text-gray-700 uppercase tracking-wider">Assign Outlet/HO</th>
-                                <th className="px-3  text-left font-semibold text-gray-700 uppercase tracking-wider">Status</th>
-                                <th className="px-3  text-left font-semibold text-gray-700 uppercase tracking-wider">Actions</th>
+                                <th className="px-3 text-left font-semibold text-gray-700 uppercase tracking-wider">#</th>
+                                <th className="px-3 text-left font-semibold text-gray-700 uppercase tracking-wider">Name</th>
+                                <th className="px-3 text-left font-semibold text-gray-700 uppercase tracking-wider">Mobile No.</th>
+                                <th className="px-3 text-left font-semibold text-gray-700 uppercase tracking-wider">Email</th>
+                                <th className="px-3 text-left font-semibold text-gray-700 uppercase tracking-wider">Assign Outlet/HO</th>
+                                <th className="px-3 text-left font-semibold text-gray-700 uppercase tracking-wider">Status</th>
+                                <th className="px-3 text-left font-semibold text-gray-700 uppercase tracking-wider">Actions</th>
                             </tr>
                         </thead>
                         <tbody className="divide-y divide-gray-100">
                             {rows.map((e, idx) => {
                                 const colorIndex = (start + idx) % rowColors.length;
                                 const rowColorClass = rowColors[colorIndex];
-                                
                                 return (
                                     <tr key={e.id} className={`${rowColorClass} transition-colors`}>
                                         <td className="px-3 py-1 text-gray-600 font-medium">{start + idx + 1}</td>
                                         <td className="px-3 py-1">
-                                            <a
-                                                href={e.href || "#"}
-                                                className="font-medium text-indigo-600 hover:text-indigo-800 hover:underline transition-colors"
+                                            <button
+                                             onClick={() => navigate(`/employee/${e.id}`, { state: { employee: e } })} 
+                                                className="font-medium text-indigo-600 hover:text-indigo-800 hover:underline transition-colors text-left"
                                             >
                                                 {e.name}
-                                            </a>
+                                            </button>
                                         </td>
-                                        <td className="px-3  text-gray-700">{e.mobile}</td>
-                                        <td className="px-3  text-gray-700">
-                                            {e.email ? (
-                                                <span className="break-all">{e.email}</span>
-                                            ) : (
-                                                <span className="text-gray-400">—</span>
-                                            )}
-                                        </td>
-                                        <td className="px-3  text-gray-700">{e.outlet}</td>
-                                        <td className="px-3 ">
+                                        <td className="px-3 text-gray-700">{e.mobile}</td>
+                                        <td className="px-3 text-gray-700">{e.email || <span className="text-gray-400">—</span>}</td>
+                                        <td className="px-3 text-gray-700">{e.outlet}</td>
+                                        <td className="px-3">
                                             {e.active ? (
                                                 <span className="inline-flex items-center gap-1 rounded-full bg-green-50 px-2 py-1 text-xs font-medium text-green-700 ring-1 ring-inset ring-green-200">
-                                                    <CheckCircleIcon className="h-3 w-3" />
-                                                    Active
+                                                    <CheckCircleIcon className="h-3 w-3" /> Active
                                                 </span>
                                             ) : (
-                                                <span className="inline-flex items-center gap-1 rounded-full bg-gray-100 px-2 py-1 text-xs font-medium text-gray-600 ring-1 ring-inset ring-gray-200">
-                                                    Inactive
-                                                </span>
+                                                <span className="inline-flex items-center gap-1 rounded-full bg-gray-100 px-2 py-1 text-xs font-medium text-gray-600 ring-1 ring-inset ring-gray-200">Inactive</span>
                                             )}
                                         </td>
-                                        <td className="px-3 ">
+                                        <td className="px-3">
                                             <div className="flex items-center gap-1">
-                                                <button
-                                                    onClick={() => window.open(e.href || "#", "_blank")}
-                                                    className="p-1 text-gray-400 hover:text-indigo-600 hover:bg-indigo-50 rounded transition-colors"
-                                                    title="Open"
-                                                >
+                                                <button onClick={() => window.open(e.href || "#", "_blank")} className="p-1 text-gray-400 hover:text-indigo-600 hover:bg-indigo-50 rounded transition-colors" title="Open">
                                                     <ArrowTopRightOnSquareIcon className="h-3.5 w-3.5" />
                                                 </button>
-                                                <button
-                                                    onClick={() => alert(`Edit ${e.name}`)}
-                                                    className="p-1 text-gray-400 hover:text-indigo-600 hover:bg-indigo-50 rounded transition-colors"
-                                                    title="Edit"
-                                                >
+                                                <button onClick={() => handleEditEmployee(e, navigate)} className="p-1 text-gray-400 hover:text-indigo-600 hover:bg-indigo-50 rounded transition-colors" title="Edit">
                                                     <PencilSquareIcon className="h-3.5 w-3.5" />
                                                 </button>
-                                                <button
-                                                    onClick={() => alert(`Disable ${e.name}`)}
-                                                    className="p-1 text-gray-400 hover:text-amber-600 hover:bg-amber-50 rounded transition-colors"
-                                                    title="Disable"
-                                                >
+                                                <button onClick={() => alert(`Disable ${e.name}`)} className="p-1 text-gray-400 hover:text-amber-600 hover:bg-amber-50 rounded transition-colors" title="Disable">
                                                     <NoSymbolIcon className="h-3.5 w-3.5" />
                                                 </button>
-                                                <button
-                                                    onClick={() => {
-                                                        if (window.confirm(`Delete ${e.name}?`)) {
-                                                            alert("Implement delete logic");
-                                                        }
-                                                    }}
-                                                    className="p-1 text-gray-400 hover:text-rose-600 hover:bg-rose-50 rounded transition-colors"
-                                                    title="Delete"
-                                                >
+                                                <button onClick={() => { if (window.confirm(`Delete ${e.name}?`)) { alert("Implement delete logic"); } }} className="p-1 text-gray-400 hover:text-rose-600 hover:bg-rose-50 rounded transition-colors" title="Delete">
                                                     <TrashIcon className="h-3.5 w-3.5" />
                                                 </button>
                                             </div>
@@ -645,31 +572,17 @@ export default function EmployeePage() {
                         </tbody>
                     </table>
                 </div>
-                {/* Enhanced Pagination */}
+
                 <div className="border-t border-gray-200 bg-white px-6 py-4">
-                    <div className="flex flex-row justify-between  gap-4 sm:flex-row">
-                        {/* Showing entries info */}
+                    <div className="flex flex-row justify-between gap-4 sm:flex-row">
                         <div className="text-sm text-gray-600">
-                            Showing{" "}
-                            <span className="font-semibold text-gray-900">
-                                {total === 0 ? 0 : start + 1}-{Math.min(total, start + pageSize)}
-                            </span>{" "}
-                            of <span className="font-semibold text-gray-900">{total}</span>{" "}
-                            {total === 1 ? 'entry' : 'entries'}
+                            Showing <span className="font-semibold text-gray-900">{total === 0 ? 0 : start + 1}-{Math.min(total, start + pageSize)}</span> of <span className="font-semibold text-gray-900">{total}</span> {total === 1 ? 'entry' : 'entries'}
                         </div>
 
-                        <div className="">
-                            {/* Attractive Pagination */}
                         <Pagination>
                             <PaginationContent>
                                 <PaginationItem>
-                                    <PaginationPrevious
-                                        onClick={() => changePage(currentPage - 1)}
-                                        className={cx(
-                                            "cursor-pointer",
-                                            currentPage === 1 && "pointer-events-none opacity-50"
-                                        )}
-                                    />
+                                    <PaginationPrevious onClick={() => changePage(currentPage - 1)} className={cx("cursor-pointer", currentPage === 1 && "pointer-events-none opacity-50")} />
                                 </PaginationItem>
 
                                 {paginationItems.map((item, index) => {
@@ -683,29 +596,16 @@ export default function EmployeePage() {
 
                                     return (
                                         <PaginationItem key={item}>
-                                            <PaginationLink
-                                                onClick={() => changePage(item)}
-                                                isActive={currentPage === item}
-                                                className="cursor-pointer"
-                                            >
-                                                {item}
-                                            </PaginationLink>
+                                            <PaginationLink onClick={() => changePage(item)} isActive={currentPage === item} className="cursor-pointer">{item}</PaginationLink>
                                         </PaginationItem>
                                     );
                                 })}
 
                                 <PaginationItem>
-                                    <PaginationNext
-                                        onClick={() => changePage(currentPage + 1)}
-                                        className={cx(
-                                            "cursor-pointer",
-                                            currentPage === totalPages && "pointer-events-none opacity-50"
-                                        )}
-                                    />
+                                    <PaginationNext onClick={() => changePage(currentPage + 1)} className={cx("cursor-pointer", currentPage === totalPages && "pointer-events-none opacity-50")} />
                                 </PaginationItem>
                             </PaginationContent>
                         </Pagination>
-                        </div>
                     </div>
                 </div>
             </div>
