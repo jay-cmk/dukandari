@@ -29,9 +29,10 @@ export const mainMenus = [
   { name: "Gifts", icon: Gift, path: "/gifts" },
   { name: "Calculator", icon: Calculator, path: "/calculator" },
   { name: "Outlets", icon: Network, path: "/outlets" },
-  { name: "Settings", icon: Settings, path: "/settings" },
+  { name: "Settings", icon: Settings, path: "/settings", hasSubmenu: true },
 ];
 
+// ✅ Inventory Submenus
 export const inventorySubMenus = [
   { name: "Stock", path: "/inventory/stock" },
   { name: "Product", path: "/inventory/product" },
@@ -47,4 +48,16 @@ export const inventorySubMenus = [
   { name: "Material Creation", path: "/inventory/material-creation" },
   { name: "Label Master", path: "/inventory/label-master" },
   { name: "Variant Option Master", path: "/inventory/variant-option-master" },
+];
+
+// ✅ Settings Submenus (like your screenshot)
+export const settingsSubMenus = [
+  { name: "General", path: "/settings/general" },
+  { name: "Inventory", path: "/settings/inventory" },
+  { name: "POS", path: "/settings/pos" },
+  { name: "Notifications", path: "/settings/notifications" },
+  { name: "Purchase", path: "/settings/purchase" },
+  { name: "Sales", path: "/settings/sales" },
+  { name: "Integration", path: "/settings/integration" },
+  { name: "Logs", path: "/settings/logs" },
 ];

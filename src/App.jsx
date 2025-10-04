@@ -15,6 +15,7 @@ import General from "./pages/Settings/General";
 import EmployeeForm from "./pages/Employee/EmployeeForm";
 import CustomerDetails from "./pages/Employee/Customer/CustomerDetails";
 import OutletDetails from "./pages/Outlets/OutletsDetails";
+import CreateNewUserRole from "./pages/Settings/CreateNewUserRole";
 
 
 export default function App() {
@@ -35,6 +36,8 @@ export default function App() {
         <Route path="/employee-form" element={<Layout><EmployeeForm/></Layout>} />
         <Route path="/outlets/edit/:id" element={<Layout><OutletForm mode="edit"/></Layout>} />
         <Route path="/settings/general" element={<Layout><General /></Layout>} />
+        <Route path="/settings/general/createNewUserRole" element={<Layout><CreateNewUserRole/></Layout>} />
+        <Route path="/settings/general/editUserRole/:id" element={<Layout><CreateNewUserRole /></Layout>} />
         <Route path="/employee/edit/:id" element={<Layout><EmployeeForm mode="edit"/></Layout>} />
         <Route path="/employee/:id" element={<Layout><CustomerDetails /></Layout>} />
         <Route path="/outlets/:id" element={<Layout><OutletDetails /></Layout>} />

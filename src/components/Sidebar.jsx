@@ -82,24 +82,36 @@
 
 // export default Sidebar;
 
-
 import React, { useState } from "react";
 import { ChevronDown, ChevronRight, Circle } from "lucide-react";
 import { NavLink } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
-import { mainMenus, inventorySubMenus } from "./menuConfig";
+import { mainMenus, inventorySubMenus, settingsSubMenus } from "./menuConfig";
 
 const Sidebar = ({ isOpen, toggleSidebar }) => {
   const [isHovered, setIsHovered] = useState(false);
-  const [inventoryOpen, setInventoryOpen] = useState(false);
+  const [openSubmenus, setOpenSubmenus] = useState({
+    inventory: false,
+    settings: false
+  });
+
+  // Toggle specific submenu
+  const toggleSubmenu = (menuName) => {
+    setOpenSubmenus(prev => ({
+      ...prev,
+      [menuName]: !prev[menuName]
+    }));
+  };
 
   // Enhanced menus with state
   const menus = mainMenus.map(menu => {
     if (menu.hasSubmenu) {
+      const submenuKey = menu.name.toLowerCase();
       return {
         ...menu,
-        isOpen: inventoryOpen,
-        toggle: () => setInventoryOpen(!inventoryOpen)
+        isOpen: openSubmenus[submenuKey],
+        toggle: () => toggleSubmenu(submenuKey),
+        submenus: submenuKey === 'inventory' ? inventorySubMenus : settingsSubMenus
       };
     }
     return menu;
@@ -107,6 +119,68 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
 
   // Sidebar expanded condition: either toggled open OR hovered
   const expanded = isOpen || isHovered;
+
+  // Render submenu items
+  const renderSubmenuItems = (submenus, isOpen, menuName) => {
+    return (
+      <AnimatePresence>
+        {isOpen && (
+          <motion.ul
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: "auto" }}
+            exit={{ opacity: 0, height: 0 }}
+            transition={{ duration: 0.2 }}
+            className={`${expanded ? "ml-4" : "ml-0"} mt-1 space-y-1 overflow-hidden`}
+          >
+            {submenus.map((submenu, subIndex) => (
+              <li key={subIndex}>
+                <NavLink
+                  to={submenu.path}
+                  className={({ isActive }) =>
+                    `flex items-center gap-2 p-2 rounded cursor-pointer transition-all duration-200 group text-sm ${
+                      isActive
+                        ? "bg-blue-500 text-white"
+                        : "text-gray-400 hover:bg-blue-600 hover:text-white"
+                    }`
+                  }
+                >
+                  {/* Show bullet point when collapsed, chevron when expanded */}
+                  {expanded ? (
+                    <ChevronRight size={16} className="flex-shrink-0" />
+                  ) : (
+                    <Circle size={8} className="flex-shrink-0 ml-1" />
+                  )}
+                  <motion.span
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    className="whitespace-nowrap overflow-hidden text-ellipsis"
+                  >
+                    {expanded ? submenu.name : ""}
+                  </motion.span>
+                </NavLink>
+              </li>
+            ))}
+          </motion.ul>
+        )}
+      </AnimatePresence>
+    );
+  };
+
+  // Render bullet points for collapsed sidebar
+  const renderCollapsedBulletPoints = (submenus, isOpen) => {
+    if (!expanded && isOpen) {
+      return (
+        <div className="ml-2 mt-1 space-y-1">
+          {submenus.map((submenu, subIndex) => (
+            <div key={subIndex} className="flex justify-center">
+              <Circle size={6} className="text-gray-400" />
+            </div>
+          ))}
+        </div>
+      );
+    }
+    return null;
+  };
 
   return (
     <motion.div
@@ -122,7 +196,7 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
         {menus.map((menu, index) => (
           <li key={index}>
             {menu.hasSubmenu ? (
-              // Inventory menu with collapsible submenu
+              // Menu with collapsible submenu (Inventory or Settings)
               <div>
                 <button
                   onClick={menu.toggle}
@@ -161,57 +235,10 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
                 </button>
 
                 {/* Submenu Items */}
-                <AnimatePresence>
-                  {menu.isOpen && (
-                    <motion.ul
-                      initial={{ opacity: 0, height: 0 }}
-                      animate={{ opacity: 1, height: "auto" }}
-                      exit={{ opacity: 0, height: 0 }}
-                      transition={{ duration: 0.2 }}
-                      className={`${expanded ? "ml-4" : "ml-0"} mt-1 space-y-1 overflow-hidden`}
-                    >
-                      {inventorySubMenus.map((submenu, subIndex) => (
-                        <li key={subIndex}>
-                          <NavLink
-                            to={submenu.path}
-                            className={({ isActive }) =>
-                              `flex items-center gap-2 p-2 rounded cursor-pointer transition-all duration-200 group text-sm ${
-                                isActive
-                                  ? "bg-blue-500 text-white"
-                                  : "text-gray-400 hover:bg-blue-600 hover:text-white"
-                              }`
-                            }
-                          >
-                            {/* Show bullet point when collapsed, chevron when expanded */}
-                            {expanded ? (
-                              <ChevronRight size={16} className="flex-shrink-0" />
-                            ) : (
-                              <Circle size={8} className="flex-shrink-0 ml-1" />
-                            )}
-                            <motion.span
-                              initial={{ opacity: 0 }}
-                              animate={{ opacity: 1 }}
-                              className="whitespace-nowrap overflow-hidden text-ellipsis"
-                            >
-                              {expanded ? submenu.name : ""}
-                            </motion.span>
-                          </NavLink>
-                        </li>
-                      ))}
-                    </motion.ul>
-                  )}
-                </AnimatePresence>
-
-                {/* Show bullet points when sidebar is collapsed and inventory is open */}
-                {!expanded && menu.isOpen && (
-                  <div className="ml-2 mt-1 space-y-1">
-                    {inventorySubMenus.map((submenu, subIndex) => (
-                      <div key={subIndex} className="flex justify-center">
-                        <Circle size={6} className="text-gray-400" />
-                      </div>
-                    ))}
-                  </div>
-                )}
+                {renderSubmenuItems(menu.submenus, menu.isOpen, menu.name)}
+                
+                {/* Show bullet points when sidebar is collapsed */}
+                {renderCollapsedBulletPoints(menu.submenus, menu.isOpen)}
               </div>
             ) : (
               // Regular menu item
