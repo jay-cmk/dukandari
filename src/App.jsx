@@ -11,6 +11,7 @@ import Employee from "./pages/Employee/Employee";
 import Dashboard from "./pages/Dashboard/Dashboard";
 import OutletForm from "./pages/Outlets/OutletsForm";
 import Outlets from "./pages/Outlets/Outlets";
+import General from "./pages/Settings/General";
 
 
 export default function App() {
@@ -29,6 +30,8 @@ export default function App() {
         <Route path="/outlets" element={<Layout><Outlets/></Layout>} />
         <Route path="/outletsForm" element={<Layout><OutletForm/></Layout>} />
         <Route path="/outlets/edit/:id" element={<Layout><OutletForm mode="edit"/></Layout>} />
+        <Route path="/settings/general" element={<Layout><General /></Layout>} />
+
         
         {/* <Route path="/dashboard" element={<Layout><Dashboard/></Layout>} /> */}
 
