@@ -2,6 +2,11 @@
 import React, { useState } from 'react';
 import SettingsLayout from './SettingsLayout';
 import UserRoles from './UserRoles'; // ADD THIS IMPORT
+import Prefix from './Prefix';
+import Taxes from './Taxes';
+import PaymentTerms from './Payment_Term';
+import AdditionalCharge from './AdditionalCharges';
+// import Sales from './Sales/Sales';
 
 // Simple components for other menu items
 const Profile = () => (
@@ -49,12 +54,12 @@ const Profile = () => (
     </div>
 );
 
-const Taxes = () => (
-    <div>
-        <h2>Taxes Settings</h2>
-        <p>Tax configuration content goes here.</p>
-    </div>
-);
+// const Taxes = () => (
+//     <div>
+//         <h2>Taxes Settings</h2>
+//         <p>Tax configuration content goes here.</p>
+//     </div>
+// );
 
 const ReportFormats = () => (
     <div>
@@ -63,26 +68,26 @@ const ReportFormats = () => (
     </div>
 );
 
-const Prefix = () => (
-    <div>
-        <h2>Prefix Settings</h2>
-        <p>Prefix configuration content goes here.</p>
-    </div>
-);
+// const Prefix = () => (
+//     <div>
+//         <h2>Prefix Settings</h2>
+//         <p>Prefix configuration content goes here.</p>
+//     </div>
+// );
 
-const PaymentTerms = () => (
-    <div>
-        <h2>Payment Terms</h2>
-        <p>Payment terms configuration content goes here.</p>
-    </div>
-);
+// const PaymentTerms = () => (
+//     <div>
+//         <h2>Payment Terms</h2>
+//         <p>Payment terms configuration content goes here.</p>
+//     </div>
+// );
 
-const AdditionalCharges = () => (
-    <div>
-        <h2>Additional Charges</h2>
-        <p>Additional charges configuration content goes here.</p>
-    </div>
-);
+// const AdditionalCharges = () => (
+//     <div>
+//         <h2>Additional Charges</h2>
+//         <p>Additional charges configuration content goes here.</p>
+//     </div>
+// );
 
 const Hardware = () => (
     <div>
@@ -116,11 +121,13 @@ const General = () => {
             case 'Payment Terms':
                 return <PaymentTerms />;
             case 'Additional Charges':
-                return <AdditionalCharges />;
+                return <AdditionalCharge />;
             case 'Hardware':
                 return <Hardware />;
             case 'Manage Account':
                 return <ManageAccount />;
+            // case 'Sales':
+            //     return <Sales/>;
             default:
                 return <div>Content for {activeMenu}</div>;
         }

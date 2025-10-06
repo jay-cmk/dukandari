@@ -1,3 +1,4 @@
+// hooks/useTableLogic.jsx
 import { useMemo, useState, useCallback } from "react";
 
 export const useTableLogic = (initialData = []) => {
@@ -6,15 +7,9 @@ export const useTableLogic = (initialData = []) => {
   const [page, setPage] = useState(1);
   const [sortConfig, setSortConfig] = useState({ key: null, direction: "asc" });
 
-  // Remove the searchConfig useMemo and define it directly
-  const searchFields = [
-    "name",
-    "contactName",
-    "contactNo",
-    "type",
-    "year",
-    "month",
-  ];
+  // Define search fields that match your actual data structure
+  // For UserRoles, we search by roleName
+  const searchFields = ["roleName"];
 
   const filtered = useMemo(() => {
     const q = query.trim();
@@ -31,7 +26,7 @@ export const useTableLogic = (initialData = []) => {
         return fieldValue.includes(searchTerm);
       });
     });
-  }, [query, initialData, searchFields]); // Add searchFields to dependencies
+  }, [query, initialData, searchFields]);
 
   const sortedData = useMemo(() => {
     if (!sortConfig.key) return filtered;
@@ -58,7 +53,7 @@ export const useTableLogic = (initialData = []) => {
     });
   }, [filtered, sortConfig]);
 
-  // Pagination calculations - combine into one useMemo
+  // Pagination calculations
   const paginationData = useMemo(() => {
     const total = sortedData.length;
     const totalPages = Math.max(1, Math.ceil(total / pageSize));
@@ -121,31 +116,31 @@ export const useTableLogic = (initialData = []) => {
     setSortConfig({ key: null, direction: "asc" });
   }, []);
 
-const getSortIcon = useCallback(
-  (key) => {
-    if (sortConfig.key !== key) {
-      return (
-        <div className="inline-flex flex-col -space-y-0.5 text-gray-600">
-          <span className="text-[10px] leading-3">▲</span>
-          <span className="text-[10px] leading-3">▼</span>
+  const getSortIcon = useCallback(
+    (key) => {
+      if (sortConfig.key !== key) {
+        return (
+          <div className="inline-flex flex-col -space-y-0.5 text-gray-600">
+            <span className="text-[10px] leading-3">▲</span>
+            <span className="text-[10px] leading-3">▼</span>
+          </div>
+        );
+      }
+
+      return sortConfig.direction === "asc" ? (
+        <div className="inline-flex flex-col -space-y-0.5 text-black">
+          <span className="text-[10px] leading-3 font-bold">▲</span>
+          <span className="text-[10px] leading-3 text-gray-600">▼</span>
+        </div>
+      ) : (
+        <div className="inline-flex flex-col -space-y-0.5 text-black">
+          <span className="text-[10px] leading-3 text-gray-600">▲</span>
+          <span className="text-[10px] leading-3 font-bold">▼</span>
         </div>
       );
-    }
-
-    return sortConfig.direction === "asc" ? (
-      <div className="inline-flex flex-col -space-y-0.5 text-black">
-        <span className="text-[10px] leading-3 font-bold">▲</span>
-        <span className="text-[10px] leading-3 text-gray-600">▼</span>
-      </div>
-    ) : (
-      <div className="inline-flex flex-col -space-y-0.5 text-black">
-        <span className="text-[10px] leading-3 text-gray-600">▲</span>
-        <span className="text-[10px] leading-3 font-bold">▼</span>
-      </div>
-    );
-  },
-  [sortConfig]
-);
+    },
+    [sortConfig]
+  );
 
   const getAriaLabel = useCallback(
     (key) => {

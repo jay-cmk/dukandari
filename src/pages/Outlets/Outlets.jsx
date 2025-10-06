@@ -104,11 +104,11 @@ export default function EmployeePage() {
           <table className="w-full text-sm">
             <thead className="bg-gray-400 border-b p-4 border-gray-200">
               <tr>
-                <th className="px-3 text-left font-semibold text-gray-700 uppercase tracking-wider">
+                <th className="px-3 text-left font-semibold text-gray-900 uppercase tracking-wider">
                   #
                 </th>
                 <th
-                  className="px-3 text-left font-semibold text-gray-700 uppercase tracking-wider cursor-pointer bg-gray-400"
+                  className="px-3 text-left font-semibold text-gray-900 uppercase tracking-wider cursor-pointer bg-gray-400"
                   onClick={() => handleSort("type")}
                   aria-label={getAriaLabel("type")}
                 >
@@ -118,7 +118,7 @@ export default function EmployeePage() {
                   </div>
                 </th>
                 <th
-                  className="px-3 text-left font-semibold text-gray-700 uppercase tracking-wider cursor-pointer bg-gray-400"
+                  className="px-3 text-left font-semibold text-gray-900 uppercase tracking-wider cursor-pointer bg-gray-400"
                   onClick={() => handleSort("name")}
                   aria-label={getAriaLabel("name")}
                 >
@@ -128,7 +128,7 @@ export default function EmployeePage() {
                   </div>
                 </th>
                 <th
-                  className="px-3 text-left font-semibold text-gray-700 uppercase tracking-wider cursor-pointer bg-gray-400"
+                  className="px-3 text-left font-semibold text-gray-900 uppercase tracking-wider cursor-pointer bg-gray-400"
                   onClick={() => handleSort("contactName")}
                   aria-label={getAriaLabel("contactName")}
                 >
@@ -138,7 +138,7 @@ export default function EmployeePage() {
                   </div>
                 </th>
                 <th
-                  className="px-3 text-left font-semibold text-gray-700 uppercase tracking-wider cursor-pointer bg-gray-400"
+                  className="px-3 text-left font-semibold text-gray-900 uppercase tracking-wider cursor-pointer bg-gray-400"
                   onClick={() => handleSort("contactNo")}
                   aria-label={getAriaLabel("contactNo")}
                 >
@@ -148,7 +148,7 @@ export default function EmployeePage() {
                   </div>
                 </th>
                 <th
-                  className="px-3 text-left font-semibold text-gray-700 uppercase tracking-wider cursor-pointer bg-gray-400"
+                  className="px-3 text-left font-semibold text-gray-900 uppercase tracking-wider cursor-pointer bg-gray-400"
                   onClick={() => handleSort("year")}
                   aria-label={getAriaLabel("year")}
                 >
@@ -158,7 +158,7 @@ export default function EmployeePage() {
                   </div>
                 </th>
                 <th
-                  className="px-3 text-left font-semibold text-gray-700 uppercase tracking-wider cursor-pointer bg-gray-400"
+                  className="px-3 text-left font-semibold text-gray-900 uppercase tracking-wider cursor-pointer bg-gray-400"
                   onClick={() => handleSort("month")}
                   aria-label={getAriaLabel("month")}
                 >
@@ -167,7 +167,7 @@ export default function EmployeePage() {
                     Month Interval
                   </div>
                 </th>
-                <th className="px-3 text-left font-semibold text-gray-700 uppercase tracking-wider cursor-pointer bg-gray-400">
+                <th className="px-3 text-left font-semibold text-gray-900 uppercase tracking-wider cursor-pointer bg-gray-400">
                   <div className="flex items-center gap-1">
                     {getSortIcon("action")}
                   Actions
@@ -195,17 +195,17 @@ export default function EmployeePage() {
                         {e.type}
                       </a>
                     </td>
-                    <td className="px-3 text-gray-700">{e.name}</td>
-                    <td className="px-3 text-gray-700">
+                    <td className="px-3 text-gray-900">{e.name}</td>
+                    <td className="px-3 text-gray-900">
                       {e.contactName ? (
                         <span className="break-all">{e.contactName}</span>
                       ) : (
                         <span className="text-gray-400">—</span>
                       )}
                     </td>
-                    <td className="px-3 text-gray-700">{e.contactNo}</td>
-                    <td className="px-3 text-gray-700">{e.year}</td>
-                    <td className="px-3 text-gray-700">{e.month}</td>
+                    <td className="px-3 text-gray-900">{e.contactNo}</td>
+                    <td className="px-3 text-gray-900">{e.year}</td>
+                    <td className="px-3 text-gray-900">{e.month}</td>
                     <td className="px-3">
                       <div className="flex items-center gap-1">
                         {/* <button
