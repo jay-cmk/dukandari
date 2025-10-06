@@ -68,3 +68,8 @@ export default function UserProfile() {
         </div>
     );
 }
+
+
+
+----- button color code ------
+className="text-xs bg-neutral-600 hover:bg-black text-white"

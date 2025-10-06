@@ -11,6 +11,7 @@ import EmployeeSearch from "../../components/Search";
 import CreateModal from "./modelCategoryBrand";
 import { Button } from "@/components/ui/button";
 import { FiEdit, FiTrash2, FiDownload, FiChevronLeft, FiChevronRight, FiChevronDown } from "react-icons/fi";
+import IconHome from "@/components/HomeIcon/IconHome";
 
 const CategoryBrandUI = () => {
   const [showCategoryModal, setShowCategoryModal] = useState(false);
@@ -64,7 +65,7 @@ const CategoryBrandUI = () => {
       </button>
 
       {/* Delete */}
-      <button 
+      <button
         className="p-2   hover:bg-red-100 rounded-md transition-colors duration-200"
         title="Delete"
       >
@@ -72,7 +73,7 @@ const CategoryBrandUI = () => {
       </button>
 
       {/* Download */}
-      <button 
+      <button
         className="p-2   hover:bg-blue-100 rounded-md transition-colors duration-200"
         title="Download"
       >
@@ -86,7 +87,7 @@ const CategoryBrandUI = () => {
       if (totalPages <= 3) {
         return Array.from({ length: totalPages }, (_, i) => i + 1);
       }
-      
+
       if (page <= 2) {
         return [1, 2, '...', totalPages];
       } else if (page >= totalPages - 1) {
@@ -105,65 +106,62 @@ const CategoryBrandUI = () => {
         <div className="text-sm text-gray-300">
           Showing {showingFrom} to {showingTo} of {filteredData.length} entries
         </div>
-        
+
         <div>
-            <Pagination>
-          <PaginationContent className="gap-0">
-            <PaginationItem>
-              <PaginationPrevious
-                href="#"
-                onClick={(e) => {
-                  e.preventDefault();
-                  if (page > 1) setPage(page - 1);
-                }}
-                className={`text-white border border-gray-500 hover:bg-gray-700 p-1.5 ${
-                  page === 1 ? 'opacity-50 cursor-not-allowed' : ''
-                }`}
-              >
-                <FiChevronLeft className="w-3 h-3" />
-              </PaginationPrevious>
-            </PaginationItem>
-
-            {getPageNumbers().map((pageNum, index) => (
-              <PaginationItem key={index}>
-                {pageNum === '...' ? (
-                  <span className="px-2 py-1 text-gray-400 text-sm">...</span>
-                ) : (
-                  <PaginationLink
-                    href="#"
-                    isActive={pageNum === page}
-                    onClick={(e) => {
-                      e.preventDefault();
-                      setPage(pageNum);
-                    }}
-                    className={`border border-gray-500 rounded w-8 h-8 flex items-center justify-center mx-0.5 text-sm ${
-                      pageNum === page 
-                        ? "bg-blue-600 text-white border-blue-600 shadow-md" 
-                        : "text-white hover:bg-gray-700"
+          <Pagination>
+            <PaginationContent className="gap-0">
+              <PaginationItem>
+                <PaginationPrevious
+                  href="#"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    if (page > 1) setPage(page - 1);
+                  }}
+                  className={`text-white border border-gray-500 hover:bg-gray-700 p-1.5 ${page === 1 ? 'opacity-50 cursor-not-allowed' : ''
                     }`}
-                  >
-                    {pageNum}
-                  </PaginationLink>
-                )}
+                >
+                  <FiChevronLeft className="w-3 h-3" />
+                </PaginationPrevious>
               </PaginationItem>
-            ))}
 
-            <PaginationItem>
-              <PaginationNext
-                href="#"
-                onClick={(e) => {
-                  e.preventDefault();
-                  if (page < totalPages) setPage(page + 1);
-                }}
-                className={`text-white border border-gray-500 hover:bg-gray-700 p-1.5 ${
-                  page === totalPages ? 'opacity-50 cursor-not-allowed' : ''
-                }`}
-              >
-                <FiChevronRight className="w-3 h-3" />
-              </PaginationNext>
-            </PaginationItem>
-          </PaginationContent>
-        </Pagination>
+              {getPageNumbers().map((pageNum, index) => (
+                <PaginationItem key={index}>
+                  {pageNum === '...' ? (
+                    <span className="px-2 py-1 text-gray-400 text-sm">...</span>
+                  ) : (
+                    <PaginationLink
+                      href="#"
+                      isActive={pageNum === page}
+                      onClick={(e) => {
+                        e.preventDefault();
+                        setPage(pageNum);
+                      }}
+                      className={`border border-gray-500 rounded w-8 h-8 flex items-center justify-center mx-0.5 text-sm ${pageNum === page
+                          ? "bg-blue-600 text-white border-blue-600 shadow-md"
+                          : "text-white hover:bg-gray-700"
+                        }`}
+                    >
+                      {pageNum}
+                    </PaginationLink>
+                  )}
+                </PaginationItem>
+              ))}
+
+              <PaginationItem>
+                <PaginationNext
+                  href="#"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    if (page < totalPages) setPage(page + 1);
+                  }}
+                  className={`text-white border border-gray-500 hover:bg-gray-700 p-1.5 ${page === totalPages ? 'opacity-50 cursor-not-allowed' : ''
+                    }`}
+                >
+                  <FiChevronRight className="w-3 h-3" />
+                </PaginationNext>
+              </PaginationItem>
+            </PaginationContent>
+          </Pagination>
         </div>
       </div>
     );
@@ -177,7 +175,7 @@ const CategoryBrandUI = () => {
           setItemsPerPage(Number(e.target.value));
           setPage(1);
         }}
-        className="appearance-none bg-white border border-gray-300 rounded-md py-1.5 pl-3 p-2 pr-3 text-xs focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
+        className="appearance-none bg-white border border-gray-300 rounded-md py-2 pl-3 p-2 pr-3 text-xs focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
       >
         <option value={5}>5</option>
         <option value={10}>10</option>
@@ -241,120 +239,134 @@ const CategoryBrandUI = () => {
   };
 
   return (
-    <div className="p-6 bg-gray-50 space-y-6">
-      <div className="flex space-x-6">
-        {/* Category Panel */}
-        <div className="flex-1 bg-white rounded-lg shadow-md">
-          <div className="p-4 border-b flex justify-between items-center">
-            <h2 className="text-lg font-semibold text-gray-900">Category</h2>
-            <div className="flex items-center space-x-2">
-              <EmployeeSearch query={categoryQuery} onQueryChange={setCategoryQuery} />
-              <ItemsPerPageDropdown 
-                itemsPerPage={categoryItemsPerPage} 
-                setItemsPerPage={setCategoryItemsPerPage}
-                setPage={setCategoryPage}
-                type="category"
-              />
-              <Button 
-                onClick={() => setShowCategoryModal(true)} 
-                className="py-1  text-xs  bg-neutral-600 hover:bg-black text-white"
-              >
-                Create New
-              </Button>
+    <div className=" bg-gray-100 ">
+      <div className="p-4">
+        <div className="pb-3 flex items-center justify-between">
+          <div className="flex items-center gap-5">
+            <h1 className="text-2xl text-gray-500">Category/Brand</h1>
+            <div className="h-6 w-px bg-gray-400"></div>
+            <div className="flex items-center gap-4">
+              <IconHome className="text-gray-500 w-8 h-8" />
+              <div className="text-sm text-gray-600 hover:text-blue-500 cursor-pointer transition-colors duration-200">
+                - Dashboard
+              </div>
             </div>
           </div>
-          {renderTable(
-            filteredCategoryData, 
-            categoryPage, 
-            setCategoryPage, 
-            "category",
-            categoryItemsPerPage,
-            setCategoryItemsPerPage
-          )}
         </div>
-
-        {/* Brand Panel */}
-        <div className="flex-1 bg-white rounded-lg shadow-md">
-          <div className="p-4 border-b flex justify-between items-center">
-            <h2 className="text-lg font-semibold text-gray-900">Brand</h2>
-            <div className="flex items-center space-x-2">
-              <EmployeeSearch query={brandQuery} onQueryChange={setBrandQuery} />
-              <ItemsPerPageDropdown 
-                itemsPerPage={brandItemsPerPage} 
-                setItemsPerPage={setBrandItemsPerPage}
-                setPage={setBrandPage}
-                type="brand"
-              />
-              <Button 
-                onClick={() => setShowBrandModal(true)} 
-                className="py-3  text-xs bg-neutral-600 hover:bg-black text-white"
-              >
-                Create New
-              </Button>
+        <div className="flex space-x-6">
+          {/* Category Panel */}
+          <div className="flex-1 bg-white rounded-lg shadow-md">
+            <div className="p-3 border-b flex justify-between items-center">
+              <h2 className="text-lg font-semibold text-gray-900">Category</h2>
+              <div className="flex items-center space-x-2">
+                <EmployeeSearch query={categoryQuery} onQueryChange={setCategoryQuery} />
+                <ItemsPerPageDropdown
+                  itemsPerPage={categoryItemsPerPage}
+                  setItemsPerPage={setCategoryItemsPerPage}
+                  setPage={setCategoryPage}
+                  type="category"
+                />
+                <Button
+                  onClick={() => setShowCategoryModal(true)}
+                  className="py-1  text-xs  bg-neutral-600 hover:bg-black text-white"
+                >
+                  Create New
+                </Button>
+              </div>
             </div>
+            {renderTable(
+              filteredCategoryData,
+              categoryPage,
+              setCategoryPage,
+              "category",
+              categoryItemsPerPage,
+              setCategoryItemsPerPage
+            )}
           </div>
-          {renderTable(
-            filteredBrandData, 
-            brandPage, 
-            setBrandPage, 
-            "brand",
-            brandItemsPerPage,
-            setBrandItemsPerPage
-          )}
+
+          {/* Brand Panel */}
+          <div className="flex-1 bg-white rounded-lg shadow-md">
+            <div className="p-3 border-b flex justify-between items-center">
+              <h2 className="text-lg font-semibold text-gray-900">Brand</h2>
+              <div className="flex items-center space-x-2">
+                <EmployeeSearch query={brandQuery} onQueryChange={setBrandQuery} />
+                <ItemsPerPageDropdown
+                  itemsPerPage={brandItemsPerPage}
+                  setItemsPerPage={setBrandItemsPerPage}
+                  setPage={setBrandPage}
+                  type="brand"
+                />
+                <Button
+                  onClick={() => setShowBrandModal(true)}
+                  className="py-3  text-xs bg-neutral-600 hover:bg-black text-white"
+                >
+                  Create New
+                </Button>
+              </div>
+            </div>
+            {renderTable(
+              filteredBrandData,
+              brandPage,
+              setBrandPage,
+              "brand",
+              brandItemsPerPage,
+              setBrandItemsPerPage
+            )}
+          </div>
         </div>
-      </div>
 
-      {/* Create Modals */}
-      <CreateModal
-        show={showCategoryModal}
-        onClose={() => setShowCategoryModal(false)}
-        title="New Category"
-        fields={[
-          { label: "Department*", type: "select", valueKey: "department", placeholder: "Select Department" },
-          { label: "Category Name*", type: "text", valueKey: "name", placeholder: "Enter Category Name" },
-          { label: "Category Code", type: "text", valueKey: "code", placeholder: "Enter Category Code" },
-          { label: "Parent Category", type: "select", valueKey: "parent", placeholder: "Select Parent Category" },
-          { label: "Description", type: "textarea", valueKey: "description", placeholder: "Enter Description" },
-        ]}
-        onSave={(data) => {
-          console.log("Category Created:", data);
-          setShowCategoryModal(false);
-        }}
-      />
-
-      <CreateModal
-        show={showBrandModal}
-        onClose={() => setShowBrandModal(false)}
-        title="New Brand"
-        fields={[
-          { label: "Brand Name*", type: "text", valueKey: "name", placeholder: "Enter Brand Name" },
-          { label: "Brand Code", type: "text", valueKey: "code", placeholder: "Enter Brand Code" },
-          { label: "Parent Brand", type: "select", valueKey: "parent", placeholder: "Select Parent Brand" },
-          { label: "Description", type: "textarea", valueKey: "description", placeholder: "Enter Description" },
-        ]}
-        onSave={(data) => {
-          console.log("Brand Created:", data);
-          setShowBrandModal(false);
-        }}
-      />
-
-      {/* Edit Modal */}
-      {editModal.show && (
+        {/* Create Modals */}
         <CreateModal
-          show={editModal.show}
-          onClose={() => setEditModal({ show: false, type: "", data: {} })}
-          title={`Edit ${editModal.type === "category" ? "Category" : "Brand"}`}
+          show={showCategoryModal}
+          onClose={() => setShowCategoryModal(false)}
+          title="New Category"
           fields={[
-            { label: "Name", type: "text", valueKey: "name", value: editModal.data.name || "" },
-            { label: "Code", type: "text", valueKey: "code", value: editModal.data.code || "" },
-            { label: "Description", type: "textarea", valueKey: "description", value: editModal.data.description || "" },
+            { label: "Department*", type: "select", valueKey: "department", placeholder: "Select Department" },
+            { label: "Category Name*", type: "text", valueKey: "name", placeholder: "Enter Category Name" },
+            { label: "Category Code", type: "text", valueKey: "code", placeholder: "Enter Category Code" },
+            { label: "Parent Category", type: "select", valueKey: "parent", placeholder: "Select Parent Category" },
+            { label: "Description", type: "textarea", valueKey: "description", placeholder: "Enter Description" },
           ]}
           onSave={(data) => {
-            console.log("Edited Data:", data);
-            setEditModal({ show: false, type: "", data: {} });
+            console.log("Category Created:", data);
+            setShowCategoryModal(false);
           }}
         />
-      )}
+
+        <CreateModal
+          show={showBrandModal}
+          onClose={() => setShowBrandModal(false)}
+          title="New Brand"
+          fields={[
+            { label: "Brand Name*", type: "text", valueKey: "name", placeholder: "Enter Brand Name" },
+            { label: "Brand Code", type: "text", valueKey: "code", placeholder: "Enter Brand Code" },
+            { label: "Parent Brand", type: "select", valueKey: "parent", placeholder: "Select Parent Brand" },
+            { label: "Description", type: "textarea", valueKey: "description", placeholder: "Enter Description" },
+          ]}
+          onSave={(data) => {
+            console.log("Brand Created:", data);
+            setShowBrandModal(false);
+          }}
+        />
+
+        {/* Edit Modal */}
+        {editModal.show && (
+          <CreateModal
+            show={editModal.show}
+            onClose={() => setEditModal({ show: false, type: "", data: {} })}
+            title={`Edit ${editModal.type === "category" ? "Category" : "Brand"}`}
+            fields={[
+              { label: "Name", type: "text", valueKey: "name", value: editModal.data.name || "" },
+              { label: "Code", type: "text", valueKey: "code", value: editModal.data.code || "" },
+              { label: "Description", type: "textarea", valueKey: "description", value: editModal.data.description || "" },
+            ]}
+            onSave={(data) => {
+              console.log("Edited Data:", data);
+              setEditModal({ show: false, type: "", data: {} });
+            }}
+          />
+        )}
+      </div>
     </div>
   );
 };

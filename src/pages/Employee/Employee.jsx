@@ -378,6 +378,8 @@ import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
 import { handleEditEmployee } from "@/utils/helpers";
 import FileFormatSelector from "@/components/pdf/FileFormatSelector";
+import IconHome from "@/components/HomeIcon/IconHome";
+
 
 const seed = [
     { id: 1, name: "user30065b3", mobile: "+91-8954678888", email: "", outlet: "Prashant Corner", active: true, href: "#" },
@@ -473,18 +475,27 @@ export default function EmployeePage() {
 
     return (
         <div className="min-h-screen bg-gray-50 p-2 md:p-3">
-            <div className="mb-3">
-                <h1 className="text-2xl font-bold text-gray-900">Employees</h1>
+            <div className="pb-3 flex items-center justify-between">
+        <div className="flex items-center gap-5">
+          <h1 className="text-2xl text-gray-500">Epmloyess</h1>
+          <div className="h-6 w-px bg-gray-400"></div>
+          <div className="flex items-center gap-4">
+            <IconHome className="text-gray-500 w-8 h-8" />
+            <div className="text-sm text-gray-600 hover:text-blue-500 cursor-pointer transition-colors duration-200">
+              - Dashboard
             </div>
+          </div>
+        </div>
+      </div>
 
             <div className="mb-4 rounded-lg bg-white p-1 shadow-sm border border-gray-200">
                 <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-end">
-                     <div>
-                                <FileFormatSelector/>
-                              </div>
+                    <div className="">
+                        <FileFormatSelector data={seed} />
+                    </div>
                     <div className="flex items-center gap-3 ">
                         <select
-                            className="rounded-lg border border-gray-300 bg-white px-3 py-1 text-sm focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 focus:outline-none transition-colors"
+                            className="rounded-lg border border-gray-300 bg-white px-3 py-1.5 text-sm focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 focus:outline-none transition-colors"
                             value={pageSize}
                             onChange={(e) => { setPageSize(Number(e.target.value)); setPage(1); }}
                         >
@@ -496,8 +507,8 @@ export default function EmployeePage() {
                     <div className="">
                         <EmployeeSearch query={query} onQueryChange={handleSearchChange} />
                     </div>
-                    <div className="py-1">
-                        <Button onClick={handleCreateNew} className="py-1 text-sm">Create New</Button>
+                    <div className="py-1 ">
+                        <Button onClick={handleCreateNew} className="   bg-neutral-600 hover:bg-black py-4 text-white rounded-sm  text-sm">Create New</Button>
                     </div>
                 </div>
             </div>
@@ -507,15 +518,16 @@ export default function EmployeePage() {
                     <table className="w-full text-sm">
                         <thead className="bg-gray-50 border-b border-gray-200">
                             <tr>
-                                <th className="px-3 text-left font-semibold text-gray-700 uppercase tracking-wider">#</th>
-                                <th className="px-3 text-left font-semibold text-gray-700 uppercase tracking-wider">Name</th>
-                                <th className="px-3 text-left font-semibold text-gray-700 uppercase tracking-wider">Mobile No.</th>
-                                <th className="px-3 text-left font-semibold text-gray-700 uppercase tracking-wider">Email</th>
-                                <th className="px-3 text-left font-semibold text-gray-700 uppercase tracking-wider">Assign Outlet/HO</th>
-                                <th className="px-3 text-left font-semibold text-gray-700 uppercase tracking-wider">Status</th>
-                                <th className="px-3 text-left font-semibold text-gray-700 uppercase tracking-wider">Actions</th>
+                                <th className="px-4 py-2 text-left font-semibold text-gray-700 uppercase tracking-wider">#</th>
+                                <th className="px-4 py-2 text-left font-semibold text-gray-700 uppercase tracking-wider">Name</th>
+                                <th className="px-4 py-2 text-left font-semibold text-gray-700 uppercase tracking-wider">Mobile No.</th>
+                                <th className="px-4 py-2 text-left font-semibold text-gray-700 uppercase tracking-wider">Email</th>
+                                <th className="px-2 py-2 text-left font-semibold text-gray-700 uppercase tracking-wider">Assign Outlet/HO</th>
+                                <th className="px-4 py-2 text-left font-semibold text-gray-700 uppercase tracking-wider">Status</th>
+                                <th className="px-4 py-2 text-left font-semibold text-gray-700 uppercase tracking-wider">Actions</th>
                             </tr>
                         </thead>
+
                         <tbody className="divide-y divide-gray-100">
                             {rows.map((e, idx) => {
                                 const colorIndex = (start + idx) % rowColors.length;
@@ -525,7 +537,7 @@ export default function EmployeePage() {
                                         <td className="px-3 py-1 text-gray-600 font-medium">{start + idx + 1}</td>
                                         <td className="px-3 py-1">
                                             <button
-                                             onClick={() => navigate(`/employee/${e.id}`, { state: { employee: e } })} 
+                                                onClick={() => navigate(`/employee/${e.id}`, { state: { employee: e } })}
                                                 className="font-medium text-indigo-600 hover:text-indigo-800 hover:underline transition-colors text-left"
                                             >
                                                 {e.name}
@@ -545,9 +557,9 @@ export default function EmployeePage() {
                                         </td>
                                         <td className="px-3">
                                             <div className="flex items-center gap-1">
-                                                <button onClick={() => window.open(e.href || "#", "_blank")} className="p-1 text-gray-400 hover:text-indigo-600 hover:bg-indigo-50 rounded transition-colors" title="Open">
+                                                {/* <button onClick={() => window.open(e.href || "#", "_blank")} className="p-1 text-gray-400 hover:text-indigo-600 hover:bg-indigo-50 rounded transition-colors" title="Open">
                                                     <ArrowTopRightOnSquareIcon className="h-3.5 w-3.5" />
-                                                </button>
+                                                </button> */}
                                                 <button onClick={() => handleEditEmployee(e, navigate)} className="p-1 text-gray-400 hover:text-indigo-600 hover:bg-indigo-50 rounded transition-colors" title="Edit">
                                                     <PencilSquareIcon className="h-3.5 w-3.5" />
                                                 </button>
@@ -577,39 +589,41 @@ export default function EmployeePage() {
                     </table>
                 </div>
 
-                <div className="border-t border-gray-200 bg-white px-6 py-4">
-                    <div className="flex flex-row justify-between gap-4 sm:flex-row">
+                <div className="border-t border-gray-200 bg-white px-6 py-2">
+                    <div className="flex flex-row items-center justify-between gap-4 sm:flex-row">
                         <div className="text-sm text-gray-600">
                             Showing <span className="font-semibold text-gray-900">{total === 0 ? 0 : start + 1}-{Math.min(total, start + pageSize)}</span> of <span className="font-semibold text-gray-900">{total}</span> {total === 1 ? 'entry' : 'entries'}
                         </div>
 
-                        <Pagination>
-                            <PaginationContent>
-                                <PaginationItem>
-                                    <PaginationPrevious onClick={() => changePage(currentPage - 1)} className={cx("cursor-pointer", currentPage === 1 && "pointer-events-none opacity-50")} />
-                                </PaginationItem>
+                        <div>
+                            <Pagination>
+                                <PaginationContent>
+                                    <PaginationItem>
+                                        <PaginationPrevious onClick={() => changePage(currentPage - 1)} className={cx("cursor-pointer", currentPage === 1 && "pointer-events-none opacity-50")} />
+                                    </PaginationItem>
 
-                                {paginationItems.map((item, index) => {
-                                    if (item === 'ellipsis-start' || item === 'ellipsis-end') {
+                                    {paginationItems.map((item, index) => {
+                                        if (item === 'ellipsis-start' || item === 'ellipsis-end') {
+                                            return (
+                                                <PaginationItem key={`ellipsis-${index}`}>
+                                                    <PaginationEllipsis />
+                                                </PaginationItem>
+                                            );
+                                        }
+
                                         return (
-                                            <PaginationItem key={`ellipsis-${index}`}>
-                                                <PaginationEllipsis />
+                                            <PaginationItem key={item}>
+                                                <PaginationLink onClick={() => changePage(item)} isActive={currentPage === item} className="cursor-pointer">{item}</PaginationLink>
                                             </PaginationItem>
                                         );
-                                    }
+                                    })}
 
-                                    return (
-                                        <PaginationItem key={item}>
-                                            <PaginationLink onClick={() => changePage(item)} isActive={currentPage === item} className="cursor-pointer">{item}</PaginationLink>
-                                        </PaginationItem>
-                                    );
-                                })}
-
-                                <PaginationItem>
-                                    <PaginationNext onClick={() => changePage(currentPage + 1)} className={cx("cursor-pointer", currentPage === totalPages && "pointer-events-none opacity-50")} />
-                                </PaginationItem>
-                            </PaginationContent>
-                        </Pagination>
+                                    <PaginationItem>
+                                        <PaginationNext onClick={() => changePage(currentPage + 1)} className={cx("cursor-pointer", currentPage === totalPages && "pointer-events-none opacity-50")} />
+                                    </PaginationItem>
+                                </PaginationContent>
+                            </Pagination>
+                        </div>
                     </div>
                 </div>
             </div>
