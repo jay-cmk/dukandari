@@ -21,6 +21,7 @@ export const mainMenus = [
     path: "/inventory",
     hasSubmenu: true,
   },
+   { name: "Contact", icon: LayoutDashboard, path: "/contact" },
   { name: "Employee", icon: Users, path: "/employee" },
   { name: "Products", icon: ShoppingCart, path: "/products" },
   { name: "Company", icon: Building, path: "/company" },

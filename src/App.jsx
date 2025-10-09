@@ -20,10 +20,15 @@ import OutletDetails from "./pages/Outlets/OutletsDetails";
 import CreateNewUserRole from "./pages/Settings/General/CreateNewUserRole";
 
 import CategoryBrand from "./pages/Inventry/CategoryBrand";
-import CreateNewUserRole from "./pages/Settings/CreateNewUserRole";
+// import CreateNewUserRole from "./pages/Settings/CreateNewUserRole";
 import Department from "./pages/Department/Department";
 import InventorySettings from "./pages/Settings/Inventry/InventrySetting";
 import SalesSetting from "./pages/Settings/sales/SalesSetting";
+import Contact from "./pages/Contact/Contact";
+import ContactForm from "./pages/Contact/ContactForm";
+import { Receipt } from "lucide-react";
+import Recipe from "./pages/Inventry/Recipe";
+import CreateNewRecipe from "./pages/Inventry/CreateNewRecipe";
 
 
 export default function App() {
@@ -50,6 +55,11 @@ export default function App() {
         
         
         <Route path="/dashboard" element={<Layout><Dashboard /></Layout>} />
+
+        
+        {/* ==================== CONTACT ROUTES ==================== */}
+        <Route path="/contact" element={<Layout><Contact/></Layout>} />
+        <Route path="/contactForm" element={<Layout><ContactForm/></Layout>} />
 
 
         {/* ==================== EMPLOYEE MANAGEMENT ROUTES ==================== */}
@@ -81,6 +91,8 @@ export default function App() {
         <Route path="/outlets/:id" element={<Layout><OutletDetails /></Layout>} />
         <Route path="/inventory/category-brand" element={<Layout><CategoryBrand/></Layout>} />
         <Route path="/inventory/department" element={<Layout><Department/></Layout>} />
+        <Route path="/inventory/recipe" element={<Layout><Recipe/></Layout>} />
+        <Route path="/inventory/recipe/createNewRecipe" element={<Layout><CreateNewRecipe/></Layout>} />
         <Route path="/settings/inventory" element={<Layout><InventorySettings/></Layout>} />
         <Route path="/settings/sales" element={<Layout><SalesSetting/></Layout>} />
 
