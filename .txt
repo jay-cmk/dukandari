@@ -73,3 +73,28 @@ export default function UserProfile() {
 
 ----- button color code ------
 className="text-xs bg-neutral-600 hover:bg-black text-white"
+
+
+
+
+----- country data handle ----
+ <select
+                    {...register("country", { required: "Country is required" })}
+                    onChange={handleCountryChange}
+                    className="w-full px-3 py-1 border border-gray-300 rounded-lg"
+                  >
+                    <option value="">Select Country</option>
+                    {loading ? (
+                      <option>Loading...</option>
+                    ) : error ? (
+                      <option>Error loading countries</option>
+                    ) : Array.isArray(countries) && countries.length > 0 ? (
+                        countries.map((country) => (
+                 <option key={country.countriesCode} value={country.countriesCode}>
+                         {country.countriesName}
+                 </option>
+                ))
+              ) : (
+                <option>No countries available</option>
+                    )}
+                  </select>

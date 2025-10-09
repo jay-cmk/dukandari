@@ -9,6 +9,7 @@ const Dropdown = ({
   placeholder = "Select...",
   disabled = false,
   className = "",
+  search = false,
 }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
@@ -43,12 +44,7 @@ const Dropdown = ({
   }, [isOpen]);
 
   const handleSelect = (optionValue) => {
-    onChange({
-      target: {
-        name,
-        value: optionValue
-      }
-    });
+    onChange(optionValue); // Pass value directly
     setIsOpen(false);
     setSearchTerm('');
   };
@@ -67,7 +63,7 @@ const Dropdown = ({
       {/* Dropdown Trigger */}
       <div
         className={`
-          w-full cursor-default rounded-md border border-gray-300 bg-white py-2 pl-3 pr-10 text-left
+          w-full cursor-default rounded-md border border-gray-300 bg-white py-1 pl-3 pr-10 text-left
           hover:border-gray-400 transition-colors duration-200
           ${isOpen ? 'border-blue-500 ring-1 ring-blue-500' : ''}
           ${disabled ? 'bg-gray-100 cursor-not-allowed opacity-50' : ''}
@@ -88,28 +84,28 @@ const Dropdown = ({
 
       {/* Dropdown Menu with Search */}
       {isOpen && (
-        <div className="absolute z-50 mt-1 w-full bg-white shadow-lg rounded-md border border-gray-300 max-h-60 overflow-auto">
-          {/* Search Input */}
-          <div className="p-2 border-b border-gray-200">
-            <input
-              ref={searchInputRef}
-              type="text"
-              className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
-              placeholder="Search..."
-              value={searchTerm}
-              onChange={handleSearchChange}
-              onClick={(e) => e.stopPropagation()}
-            />
-          </div>
+        <div className="absolute z-50 mt-1 w-full bg-white shadow-sm rounded-md border border-gray-300 max-h-60 overflow-auto">
+          {search && (
+            <div className="p-0.5 border-b border-gray-200">
+              <input
+                ref={searchInputRef}
+                type="text"
+                className="w-full px-3 py-1 border border-gray-300 rounded-sm text-sm focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
+                placeholder="Search..."
+                value={searchTerm}
+                onChange={handleSearchChange}
+                onClick={(e) => e.stopPropagation()}
+              />
+            </div>
+          )}
 
-          {/* Options List */}
           <div className="max-h-48 overflow-auto">
             {filteredOptions.length === 0 ? (
               <div className="px-3 py-2 text-sm text-gray-500">No results found</div>
             ) : (
-              filteredOptions.map((option, index) => (
+              filteredOptions.map((option) => (
                 <div
-                  key={index}
+                  key={option.value}
                   className={`
                     px-3 py-2 text-sm cursor-pointer transition-colors
                     ${option.value === value 
