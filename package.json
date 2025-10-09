@@ -21,14 +21,9 @@
     "clsx": "^2.1.1",
     "framer-motion": "^12.23.22",
     "jquery": "^3.7.1",
-<<<<<<< HEAD
-    "jspdf": "^2.5.2",
-    "jspdf-autotable": "^3.8.4",
-=======
     "jspdf": "^2.5.1",
     "jspdf-autotable": "^3.5.25",
     "lodash": "^4.17.21",
->>>>>>> 5ff7ae0d047c8a15660d874ef58657d2f8899876
     "lucide-react": "^0.544.0",
     "react": "^19.1.1",
     "react-dom": "^19.1.1",
