@@ -20,10 +20,13 @@ import OutletDetails from "./pages/Outlets/OutletsDetails";
 import CreateNewUserRole from "./pages/Settings/General/CreateNewUserRole";
 
 import CategoryBrand from "./pages/Inventry/CategoryBrand";
-import CreateNewUserRole from "./pages/Settings/CreateNewUserRole";
+// import CreateNewUserRole from "./pages/Settings/CreateNewUserRole";
 import Department from "./pages/Department/Department";
 import InventorySettings from "./pages/Settings/Inventry/InventrySetting";
 import SalesSetting from "./pages/Settings/sales/SalesSetting";
+import Product from "./pages/Inventry/product/Product";
+import ProductForm from "./pages/Inventry/product/ProductForm";
+
 
 
 export default function App() {
@@ -65,7 +68,7 @@ export default function App() {
         {/* ==================== OUTLET MANAGEMENT ROUTES ==================== */}
         
        
-        <Route path="/outlets" element={<Layout><Outlets/></Layout>} />
+        <Route path="/branch" element={<Layout><Outlets/></Layout>} />
         <Route path="/outlets/:id" element={<Layout><OutletDetails /></Layout>} />
         <Route path="/outletsForm" element={<Layout><OutletForm/></Layout>} />
         <Route path="/outlets/edit/:id" element={<Layout><OutletForm mode="edit"/></Layout>} />
@@ -76,13 +79,22 @@ export default function App() {
         <Route path="/settings/general" element={<Layout><General /></Layout>} />
         <Route path="/settings/general/createNewUserRole" element={<Layout><CreateNewUserRole/></Layout>} />
         <Route path="/settings/general/editUserRole/:id" element={<Layout><CreateNewUserRole /></Layout>} />
+        <Route path="/settings/inventory" element={<Layout><InventorySettings/></Layout>} />
+        <Route path="/settings/sales" element={<Layout><SalesSetting/></Layout>} />
+
+        {/* ==================== SETTINGS ROUTES ==================== */}
+
         <Route path="/employee/edit/:id" element={<Layout><EmployeeForm mode="edit"/></Layout>} />
         <Route path="/employee/:id" element={<Layout><CustomerDetails /></Layout>} />
         <Route path="/outlets/:id" element={<Layout><OutletDetails /></Layout>} />
-        <Route path="/inventory/category-brand" element={<Layout><CategoryBrand/></Layout>} />
-        <Route path="/inventory/department" element={<Layout><Department/></Layout>} />
-        <Route path="/settings/inventory" element={<Layout><InventorySettings/></Layout>} />
-        <Route path="/settings/sales" element={<Layout><SalesSetting/></Layout>} />
+        
+        {/* ==================== Inventory ROUTES ==================== */}
+
+        <Route path="/category-brand" element={<Layout><CategoryBrand/></Layout>} />
+        <Route path="/department" element={<Layout><Department/></Layout>} />
+        <Route path="/Product" element={<Layout><Product/></Layout>} />
+        <Route path="/product-form" element={<Layout><ProductForm/></Layout>} />
+
 
 
 

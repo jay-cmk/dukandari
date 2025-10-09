@@ -113,3 +113,46 @@ export const handleEditEmployee = (employee, navigate) => {
     alert(`Edit ${employee.name}`);
   }
 };
+
+
+// handle edit product
+export const handleEditProduct = (product, navigate) => {
+  if (navigate) {
+    // Map table product data to form structure
+    const formData = {
+      itemCode: product.itemCode || "",
+      productName: product.productName || "",
+      printName: product.printName || "",
+      category: product.category || "",
+      subCategory: product.subCategory || "",
+      brand: product.brand || "",
+      subBrand: product.subBrand || "",
+      uom: product.uom || "",
+      hsnCode: product.hsnCode || "",
+      purchaseTax: product.purchaseTax || "",
+      salesTax: product.salesTax || "",
+      expiryDays: product.expiryDays || "",
+      calculateExpiryOn: product.calculateExpiryOn || "MFG",
+      mfgDate: product.mfgDate || new Date().toISOString().slice(0, 10), // today's date
+      shortDescription: product.shortDescription || "",
+      ingredients: product.ingredients || "",
+      autoGenerate: product.autoGenerate || false,
+      purchaseTaxIncluding: product.purchaseTaxIncluding || false,
+      cess: product.cess || false,
+      manageMultipleBatch: product.manageMultipleBatch ?? true,
+      hasExpiry: product.hasExpiry ?? true,
+      isExpiryProductSaleable: product.isExpiryProductSaleable ?? true,
+    };
+
+    navigate("/product-form", {
+      state: {
+        productData: formData,
+        isEdit: !!product?.id || !!product?._id,
+        productId: product.id || product._id || null,
+      },
+    });
+  } else {
+    alert(`Edit ${product.productName || "Product"}`);
+  }
+};
+

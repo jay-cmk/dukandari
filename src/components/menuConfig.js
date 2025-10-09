@@ -22,7 +22,7 @@ export const mainMenus = [
     hasSubmenu: true,
   },
   { name: "Employee", icon: Users, path: "/employee" },
-  { name: "Products", icon: ShoppingCart, path: "/products" },
+  { name: "Product", icon: ShoppingCart, path: "/Product" },
   { name: "Company", icon: Building, path: "/company" },
   { name: "Reports", icon: FileText, path: "/reports" },
   { name: "Analytics", icon: BarChart, path: "/analytics" },
@@ -35,7 +35,7 @@ export const mainMenus = [
 // ✅ Inventory Submenus
 export const inventorySubMenus = [
   { name: "Stock", path: "/inventory/stock" },
-  { name: "Product", path: "/inventory/product" },
+  { name: "Product", path: "/inventory/Product" },
   { name: "Category/Brand", path: "/inventory/category-brand" },
   { name: "Stock Transfer", path: "/inventory/stock-transfer" },
   { name: "Department", path: "/inventory/department" },
