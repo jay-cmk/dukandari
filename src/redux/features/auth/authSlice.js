@@ -70,8 +70,12 @@ const authSlice = createSlice({
     error: null,
   },
   reducers: {
-    logout: (state) => {
+  logout: (state) => {
       state.user = null;
+      localStorage.removeItem("token");
+    },
+    setUser: (state, action) => {
+      state.user = action.payload;  // <-- user को set करने वाला reducer
     },
   },
   extraReducers: (builder) => {
@@ -105,5 +109,5 @@ const authSlice = createSlice({
   },
 });
 
-export const { logout } = authSlice.actions;
+export const { logout,setUser  } = authSlice.actions;
 export default authSlice.reducer;

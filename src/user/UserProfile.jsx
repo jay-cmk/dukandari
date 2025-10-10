@@ -78,10 +78,24 @@
 
 import React, { useState, useRef, useEffect } from "react";
 import { Key, LogOut, User } from "lucide-react";
+import { logout } from "../redux/features/auth/authSlice";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
+
 
 export default function UserProfile() {
     const [isOpen, setIsOpen] = useState(false);
     const dropdownRef = useRef(null);
+    const dispatch = useDispatch(); // ✅ Call hook at top level
+    const navigate=useNavigate()
+
+
+
+    const handleLogout = () => {
+        dispatch(logout());
+        toast.success("Logged out successfully!");
+        navigate("/login");
+    };
 
     // Close dropdown when clicking outside
     useEffect(() => {
@@ -141,7 +155,7 @@ export default function UserProfile() {
                                     style={{ backgroundColor: "#f4516c" }}
                                 >
                                     <LogOut className="h-4 w-4" />
-                                    <span className="ml-1">Logout</span>
+                                    <span onClick={handleLogout} className="ml-1">Logout</span>
                                 </button>
                             </div>
                         </div>

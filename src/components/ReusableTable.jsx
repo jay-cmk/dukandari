@@ -19,6 +19,7 @@ import { usePagination } from "@/hooks/usePagination";
 import { useTableLogic } from "@/hooks/useTableLogic";
 import { rowColors } from "@/constants/tableData";
 import { cx } from "@/utils/helpers";
+import EmployeeSearch from "./Search";
 
 export const ReusableTable = ({
   title,
@@ -56,7 +57,7 @@ export const ReusableTable = ({
   const showActions = showEdit || showDelete;
 
   return (
-    <div className="min-h-screen bg-gray-50 p-2 md:p-3">
+    <div className=" bg-gray-50 p-2 md:p-3">
       <div className="mb-3">
         <h1 className="text-xl text-gray-500">{title}</h1>
       </div>
@@ -79,12 +80,12 @@ export const ReusableTable = ({
 
           <div className="flex-1 md:flex-none">
             <div className="relative">
-              <input
+              <EmployeeSearch
                 type="text"
                 placeholder={searchPlaceholder}
                 value={query}
                 onChange={(e) => handleSearchChange(e.target.value)}
-                className="w-full md:w-64 rounded-lg border border-gray-300 bg-white px-3 py-1 pl-9 text-sm focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 focus:outline-none transition-colors"
+                className=""
               />
               <MagnifyingGlassIcon className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 transform text-gray-400" />
             </div>

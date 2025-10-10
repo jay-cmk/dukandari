@@ -48,7 +48,7 @@
 import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { DefaultsSection } from "./defaultsSection/DefaultsSection";
-import { UnitOfMeasurementSection } from "./defaultsSection/UnitOfMeasurementSection";
+import UnitOfMeasurementSection  from "./defaultsSection/UnitOfMeasurementSection";
 import { CategoryWiseVariantsSection } from "./defaultsSection/CategoryWiseVariantsSection";
 import IconHome from "@/components/HomeIcon/IconHome";
 import { Aside } from "@/components/aside/Aside";
