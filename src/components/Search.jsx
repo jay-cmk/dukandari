@@ -3,7 +3,8 @@ import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
 
 export default function EmployeeSearch({
     query,
-    onQueryChange
+    onQueryChange,
+    
 }) {
     return (
         <div className="relative w-45">

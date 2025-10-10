@@ -181,7 +181,10 @@ import React from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { loginThunk } from "../../src/redux/features/auth/authSlice";
+import { loginThunk, setUser } from "../../src/redux/features/auth/authSlice";
+import { saveMenusToDB } from "@/utils/dbUtils";
+import { getMenusFromDB } from "@/utils/getMenusFromDB";
+
 
 const Login = () => {
   const navigate = useNavigate();
@@ -190,27 +193,66 @@ const Login = () => {
 
   const { register, handleSubmit, formState: { errors } } = useForm();
 
+  // const onSubmit = async (data) => {
+  //   console.log("data", data)
+
+  //   try {
+  //     const res = await dispatch(loginThunk(data)).unwrap(); // wait for the thunk
+  //     if (res.token) {
+  //       localStorage.setItem("token", res.token);
+
+  //       // localStorage.setItem("navData", res.navMenuPermissions);
+  //       localStorage.setItem("navMenuPermissions", JSON.stringify(res.navMenuPermissions));
+  //       localStorage.setItem("navSubMenuPermissions", JSON.stringify(res.navSubMenuPermissions));
+
+  //       const localstoragedata = JSON.parse(localStorage.getItem("navMenuPermissions"));
+  //       console.log("localstoragedata", localstoragedata);
+  //     }
+  //     console.log("token", res.token)
+  //     navigate("/dashboard");
+  //   } catch (err) {
+  //     console.error("Login failed:", err);
+  //   }
+  // };
+
+
+
+
   const onSubmit = async (data) => {
-    console.log("data", data)
+    console.log("data", data);
 
     try {
       const res = await dispatch(loginThunk(data)).unwrap(); // wait for the thunk
+
       if (res.token) {
+        // ✅ Store token in localStorage (for API auth)
+
         localStorage.setItem("token", res.token);
+        dispatch(setUser({ token: res.token }));
 
-        // localStorage.setItem("navData", res.navMenuPermissions);
-        localStorage.setItem("navMenuPermissions", JSON.stringify(res.navMenuPermissions));
-        localStorage.setItem("navSubMenuPermissions", JSON.stringify(res.navSubMenuPermissions));
+        const { navMenus, navSubMenus } = await saveMenusToDB(
+          res.navMenuPermissions,
+          res.navSubMenuPermissions
+        );
+        const menus = await getMenusFromDB();
+        console.log("📦 Menus fetched from DB:", menus);
 
-        const localstoragedata = JSON.parse(localStorage.getItem("navMenuPermissions"));
-        console.log("localstoragedata", localstoragedata);
+        // ✅ Save menu data to IndexedDB
+        const dbdata = await saveMenusToDB(res.navMenuPermissions, res.navSubMenuPermissions);
+
+
+        // Optional fallback: also keep in localStorage for debugging
+        // localStorage.setItem("navMenuPermissions", JSON.stringify(res.navMenuPermissions));
+        // localStorage.setItem("navSubMenuPermissions", JSON.stringify(res.navSubMenuPermissions));
       }
-      console.log("token", res.token)
+
+      console.log("token", res.token);
       navigate("/dashboard");
     } catch (err) {
-      console.error("Login failed:", err);
+      console.error("❌ Login failed:", err);
     }
   };
+
 
 
   return (

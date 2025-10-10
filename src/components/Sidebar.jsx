@@ -289,6 +289,199 @@
 
 
 
+// import React, { useState, useEffect } from "react";
+// import {
+//   ChevronDown,
+//   Circle,
+//   Home,
+//   User,
+//   Boxes,
+//   ShoppingBag,
+//   ShoppingCart,
+//   Landmark,
+//   Printer,
+//   Network, // ✅ replaced Sitemap with Network
+//   Calculator,
+//   Gift,
+//   FileText,
+//   BarChart3,
+//   Settings,
+//   History,
+//   Gauge,
+// } from "lucide-react";
+// import { NavLink } from "react-router-dom";
+// import { motion, AnimatePresence } from "framer-motion";
+
+// // 🔹 Font Awesome → Lucide mapping
+// const iconMap = {
+//   "fa-dashboard": Gauge,
+//   "fa-user": User,
+//   "fa-cubes": Boxes,
+//   "fa-shopping-bag": ShoppingBag,
+//   "fa-shopping-cart": ShoppingCart,
+//   "fa-bank": Landmark,
+//   "fa-fax": Printer,
+//   "fa-sitemap": Network, // ✅ fixed (Lucide has no Sitemap)
+//   "fa-calculator": Calculator,
+//   "fa-gift": Gift,
+//   "fa-file": FileText,
+//   "fa-bar-chart-o": BarChart3,
+//   "fa-gears": Settings,
+//   "fa-history": History,
+// };
+
+// const getIcon = (iconClass) => {
+//   if (!iconClass) return Home;
+
+//   const faClass = iconClass.split(" ").find((cls) => cls.startsWith("fa-"));
+//   const Icon = iconMap[faClass];
+
+//   if (!Icon) console.warn(`⚠️ Unknown icon class: ${iconClass}`);
+//   return Icon || Home;
+// };
+
+// const Sidebar = ({ isOpen }) => {
+//   const [isHovered, setIsHovered] = useState(false);
+//   const [menus, setMenus] = useState([]);
+
+//   useEffect(() => {
+//     const navMenuPermissions = JSON.parse(
+//       localStorage.getItem("navMenuPermissions") || "[]"
+//     );
+//     const navSubMenuPermissions = JSON.parse(
+//       localStorage.getItem("navSubMenuPermissions") || "[]"
+//     );
+
+//     const enhancedMenus = navMenuPermissions.map((menu) => {
+//       const submenus = navSubMenuPermissions.filter(
+//         (sub) => sub.navMenuId === menu.navMenuId && sub.isSubMenu === 1
+//       );
+//       return { ...menu, submenus, isOpen: false };
+//     });
+
+//     console.log("✅ Menu icons found:", enhancedMenus.map((m) => m.iconClass));
+//     setMenus(enhancedMenus);
+//   }, []);
+
+//   const toggleSubmenu = (menuId) => {
+//     setMenus((prev) =>
+//       prev.map((menu) =>
+//         menu.navMenuId === menuId ? { ...menu, isOpen: !menu.isOpen } : menu
+//       )
+//     );
+//   };
+
+//   const expanded = isOpen || isHovered;
+
+//   const renderSubmenuItems = (submenus, isOpen) => (
+//     <AnimatePresence>
+//       {isOpen && expanded && (
+//         <motion.ul
+//           initial={{ opacity: 0, height: 0 }}
+//           animate={{ opacity: 1, height: "auto" }}
+//           exit={{ opacity: 0, height: 0 }}
+//           className="ml-4 py-1 overflow-hidden"
+//         >
+//           {submenus.map((submenu) => (
+//             <li key={submenu.navSubMenuId}>
+//               <NavLink
+//                 to={`/${submenu.menuURL}`}
+//                 className={({ isActive }) =>
+//                   `flex items-center gap-2 p-1 rounded cursor-pointer transition-all duration-200 text-sm ${
+//                     isActive
+//                       ? "bg-blue-500 text-white"
+//                       : "text-gray-400 hover:bg-blue-600 hover:text-white"
+//                   }`
+//                 }
+//               >
+//                 <Circle size={8} className="flex-shrink-0 text-gray-400" />
+//                 <span>{submenu.title}</span>
+//               </NavLink>
+//             </li>
+//           ))}
+//         </motion.ul>
+//       )}
+//     </AnimatePresence>
+//   );
+
+//   return (
+//     <motion.div
+//       initial={{ width: 64 }}
+//       animate={{ width: expanded ? 208 : 64 }}
+//       transition={{ duration: 0.3 }}
+//       className="bg-[#262533] h-screen p-3 pt-4 flex-shrink-0 flex flex-col overflow-y-auto"
+//       onMouseEnter={() => setIsHovered(true)}
+//       onMouseLeave={() => setIsHovered(false)}
+//     >
+//       <ul className="flex-1 space-y-1 mt-16">
+//         {menus.map((menu) => {
+//           const Icon = getIcon(menu.iconClass);
+
+//           return (
+//             <li key={menu.navMenuId}>
+//               {menu.submenus.length > 0 ? (
+//                 <div>
+//                   <button
+//                     onClick={() => toggleSubmenu(menu.navMenuId)}
+//                     className={`flex items-center justify-between w-full p-2 rounded cursor-pointer transition-all duration-200 ${
+//                       menu.isOpen && expanded
+//                         ? "bg-blue-600 text-white"
+//                         : "text-gray-300 hover:bg-blue-500"
+//                     }`}
+//                   >
+//                     <div className="flex items-center gap-3">
+//                       <Icon size={16} />
+//                       {expanded && (
+//                         <span className="text-sm whitespace-nowrap overflow-hidden">
+//                           {menu.title}
+//                         </span>
+//                       )}
+//                     </div>
+//                     {expanded && (
+//                       <motion.div
+//                         initial={{ rotate: 0 }}
+//                         animate={{ rotate: menu.isOpen ? 0 : -90 }}
+//                         transition={{ duration: 0.2 }}
+//                       >
+//                         <ChevronDown size={16} />
+//                       </motion.div>
+//                     )}
+//                   </button>
+
+//                   {renderSubmenuItems(menu.submenus, menu.isOpen)}
+//                 </div>
+//               ) : (
+//                 <NavLink
+//                   to={`/${menu.menuURL}`}
+//                   className={({ isActive }) =>
+//                     `flex items-center gap-3 p-2 rounded cursor-pointer transition-all duration-200 ${
+//                       isActive
+//                         ? "bg-blue-600 text-white"
+//                         : "text-gray-300 hover:bg-blue-500"
+//                     }`
+//                   }
+//                 >
+//                   <Icon size={16} />
+//                   {expanded && (
+//                     <span className="text-sm whitespace-nowrap overflow-hidden">
+//                       {menu.title}
+//                     </span>
+//                   )}
+//                 </NavLink>
+//               )}
+//             </li>
+//           );
+//         })}
+//       </ul>
+//     </motion.div>
+//   );
+// };
+
+// export default Sidebar;
+
+
+
+
 import React, { useState, useEffect } from "react";
 import {
   ChevronDown,
@@ -300,7 +493,7 @@ import {
   ShoppingCart,
   Landmark,
   Printer,
-  Network, // ✅ replaced Sitemap with Network
+  Network,
   Calculator,
   Gift,
   FileText,
@@ -311,6 +504,8 @@ import {
 } from "lucide-react";
 import { NavLink } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
+import CustomScrollbar from "../components/scrollbar/CustomScrollbar"; // ✅ correct usage
+import { db } from "@/utils/db";
 
 // 🔹 Font Awesome → Lucide mapping
 const iconMap = {
@@ -321,7 +516,7 @@ const iconMap = {
   "fa-shopping-cart": ShoppingCart,
   "fa-bank": Landmark,
   "fa-fax": Printer,
-  "fa-sitemap": Network, // ✅ fixed (Lucide has no Sitemap)
+  "fa-sitemap": Network,
   "fa-calculator": Calculator,
   "fa-gift": Gift,
   "fa-file": FileText,
@@ -332,10 +527,8 @@ const iconMap = {
 
 const getIcon = (iconClass) => {
   if (!iconClass) return Home;
-
   const faClass = iconClass.split(" ").find((cls) => cls.startsWith("fa-"));
   const Icon = iconMap[faClass];
-
   if (!Icon) console.warn(`⚠️ Unknown icon class: ${iconClass}`);
   return Icon || Home;
 };
@@ -344,32 +537,59 @@ const Sidebar = ({ isOpen }) => {
   const [isHovered, setIsHovered] = useState(false);
   const [menus, setMenus] = useState([]);
 
+  // useEffect(() => {
+  //   const navMenuPermissions =
+  //     JSON.parse(localStorage.getItem("navMenuPermissions") || "[]");
+  //   const navSubMenuPermissions =
+  //     JSON.parse(localStorage.getItem("navSubMenuPermissions") || "[]");
+
+  //   const enhancedMenus = navMenuPermissions.map((menu) => {
+  //     const submenus = navSubMenuPermissions.filter(
+  //       (sub) => sub.navMenuId === menu.navMenuId && sub.isSubMenu === 1
+  //     );
+  //     return { ...menu, submenus, isOpen: false };
+  //   });
+
+  //   setMenus(enhancedMenus);
+  // }, []);
+
+
   useEffect(() => {
-    const navMenuPermissions = JSON.parse(
-      localStorage.getItem("navMenuPermissions") || "[]"
-    );
-    const navSubMenuPermissions = JSON.parse(
-      localStorage.getItem("navSubMenuPermissions") || "[]"
-    );
+  const fetchMenus = async () => {
+    try {
+      // 🔹 Fetch data from IndexedDB instead of localStorage
+      const navMenuPermissions = await db.navMenus.toArray();
+      const navSubMenuPermissions = await db.navSubMenus.toArray();
 
-    const enhancedMenus = navMenuPermissions.map((menu) => {
-      const submenus = navSubMenuPermissions.filter(
-        (sub) => sub.navMenuId === menu.navMenuId && sub.isSubMenu === 1
-      );
-      return { ...menu, submenus, isOpen: false };
-    });
+      // 🔹 Build the combined menu structure
+      const enhancedMenus = navMenuPermissions.map((menu) => {
+        const submenus = navSubMenuPermissions.filter(
+          (sub) => sub.navMenuId === menu.navMenuId && sub.isSubMenu === 1
+        );
+        return { ...menu, submenus, isOpen: false };
+      });
 
-    console.log("✅ Menu icons found:", enhancedMenus.map((m) => m.iconClass));
-    setMenus(enhancedMenus);
-  }, []);
+      setMenus(enhancedMenus);
+      console.log("✅ Menus loaded from IndexedDB:", enhancedMenus);
+    } catch (error) {
+      console.error("❌ Error loading menus from IndexedDB:", error);
+      setMenus([]);
+    }
+  };
+
+  fetchMenus();
+}, []);
 
   const toggleSubmenu = (menuId) => {
     setMenus((prev) =>
       prev.map((menu) =>
-        menu.navMenuId === menuId ? { ...menu, isOpen: !menu.isOpen } : menu
+        menu.navMenuId === menuId
+          ? { ...menu, isOpen: !menu.isOpen }
+          : { ...menu, isOpen: false }
       )
     );
   };
+  
 
   const expanded = isOpen || isHovered;
 
@@ -380,6 +600,7 @@ const Sidebar = ({ isOpen }) => {
           initial={{ opacity: 0, height: 0 }}
           animate={{ opacity: 1, height: "auto" }}
           exit={{ opacity: 0, height: 0 }}
+          transition={{ duration: 0.25 }}
           className="ml-4 py-1 overflow-hidden"
         >
           {submenus.map((submenu) => (
@@ -387,9 +608,9 @@ const Sidebar = ({ isOpen }) => {
               <NavLink
                 to={`/${submenu.menuURL}`}
                 className={({ isActive }) =>
-                  `flex items-center gap-2 p-1 rounded cursor-pointer transition-all duration-200 text-sm ${
+                  `flex items-center gap-2  rounded cursor-pointer transition-all duration-200 text-sm ${
                     isActive
-                      ? "bg-blue-500 text-white"
+                      ? "bg-blue-600 text-white"
                       : "text-gray-400 hover:bg-blue-600 hover:text-white"
                   }`
                 }
@@ -407,74 +628,83 @@ const Sidebar = ({ isOpen }) => {
   return (
     <motion.div
       initial={{ width: 64 }}
-      animate={{ width: expanded ? 208 : 64 }}
+      animate={{ width: expanded ? 208 : 45 }}
       transition={{ duration: 0.3 }}
-      className="bg-[#262533] h-screen p-3 pt-4 flex-shrink-0 flex flex-col overflow-y-auto"
+      className="bg-[#262533]  p-1 pt-4 flex-shrink-0 flex flex-col"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
-      <ul className="flex-1 space-y-1 mt-16">
-        {menus.map((menu) => {
-          const Icon = getIcon(menu.iconClass);
+      {/* ✅ Scrollbar wraps the entire menu list */}
+      <CustomScrollbar maxHeight="100%">
+        <ul className="flex-1 space-y-1 mt-16 p-1 ">
+          {menus.map((menu) => {
+            const Icon = getIcon(menu.iconClass);
 
-          return (
-            <li key={menu.navMenuId}>
-              {menu.submenus.length > 0 ? (
-                <div>
-                  <button
-                    onClick={() => toggleSubmenu(menu.navMenuId)}
-                    className={`flex items-center justify-between w-full p-2 rounded cursor-pointer transition-all duration-200 ${
-                      menu.isOpen && expanded
-                        ? "bg-blue-600 text-white"
-                        : "text-gray-300 hover:bg-blue-500"
-                    }`}
+            // Single-level menu
+            if (menu.menuURL && menu.menuURL !== "#") {
+              return (
+                <li key={menu.navMenuId}>
+                  <NavLink
+                    to={`/${menu.menuURL}`}
+                    target={menu.menuURL === "pos/new" ? "_blank" : undefined}
+                    className={({ isActive }) =>
+                      `flex items-center  gap-3 p-1   cursor-pointer transition-all duration-200 ${
+                        isActive
+                          ? "bg-blue-600 text-white"
+                          : "text-gray-300 hover:bg-blue-500"
+                      }`
+                    }
                   >
-                    <div className="flex items-center gap-3">
-                      <Icon size={16} />
-                      {expanded && (
-                        <span className="text-sm whitespace-nowrap overflow-hidden">
-                          {menu.title}
-                        </span>
-                      )}
-                    </div>
+                    <Icon size={16} />
                     {expanded && (
-                      <motion.div
-                        initial={{ rotate: 0 }}
-                        animate={{ rotate: menu.isOpen ? 0 : -90 }}
-                        transition={{ duration: 0.2 }}
-                      >
-                        <ChevronDown size={16} />
-                      </motion.div>
+                      <span className="text-sm whitespace-nowrap overflow-hidden">
+                        {menu.title}
+                      </span>
                     )}
-                  </button>
+                  </NavLink>
+                </li>
+              );
+            }
 
-                  {renderSubmenuItems(menu.submenus, menu.isOpen)}
-                </div>
-              ) : (
-                <NavLink
-                  to={`/${menu.menuURL}`}
-                  className={({ isActive }) =>
-                    `flex items-center gap-3 p-2 rounded cursor-pointer transition-all duration-200 ${
-                      isActive
-                        ? "bg-blue-600 text-white"
-                        : "text-gray-300 hover:bg-blue-500"
-                    }`
-                  }
+            // Menu with submenus
+            return (
+              <li key={menu.navMenuId}>
+                <button
+                  onClick={() => toggleSubmenu(menu.navMenuId)}
+                  className={`flex items-center justify-between w-full p-1 gap-2  cursor-pointer transition-all duration-200 ${
+                    menu.isOpen && expanded
+                      ? "bg-blue-600 text-white"
+                      : "text-gray-300 hover:bg-blue-500"
+                  }`}
                 >
-                  <Icon size={16} />
+                  <div className="flex items-center gap-3">
+                    <Icon size={16} />
+                    {expanded && (
+                      <span className="text-sm whitespace-nowrap overflow-hidden">
+                        {menu.title}
+                      </span>
+                    )}
+                  </div>
                   {expanded && (
-                    <span className="text-sm whitespace-nowrap overflow-hidden">
-                      {menu.title}
-                    </span>
+                    <motion.div
+                      initial={{ rotate: -90 }}
+                      animate={{ rotate: menu.isOpen ? 0 : -90 }}
+                      transition={{ duration: 0.2 }}
+                    >
+                      <ChevronDown size={16} />
+                    </motion.div>
                   )}
-                </NavLink>
-              )}
-            </li>
-          );
-        })}
-      </ul>
+                </button>
+
+                {renderSubmenuItems(menu.submenus, menu.isOpen)}
+              </li>
+            );
+          })}
+        </ul>
+      </CustomScrollbar>
     </motion.div>
   );
 };
 
 export default Sidebar;
+

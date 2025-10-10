@@ -13,3 +13,25 @@ body {
    padding: 0;
    box-sizing: border-box;
 } */
+
+
+/* 🔹 Custom SimpleBar scrollbar styles */
+.custom-scrollbar .simplebar-scrollbar::before {
+  background: #4b5563; /* thumb color */
+  border-radius: 6px;
+  width: 4px;
+  transition: background 0.3s ease;
+}
+
+.custom-scrollbar .simplebar-scrollbar::before:hover {
+  background: #64748b;
+}
+
+.custom-scrollbar .simplebar-track.simplebar-vertical {
+  width: 6px;
+  background: #262533; /* track matches sidebar background */
+}
+
+.custom-scrollbar .simplebar-scrollbar.simplebar-visible::before {
+  opacity: 1;
+}
