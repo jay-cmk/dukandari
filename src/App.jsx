@@ -28,6 +28,8 @@ import CreateNewRecipe from "./pages/Inventry/CreateNewRecipe";
 import Product from "./pages/Inventry/product/Product";
 import ProductForm from "./pages/Inventry/product/ProductForm";
 import { setUser } from "./redux/features/auth/authSlice";
+import Stock from "./pages/Inventry/Stock/Stock";
+import Sales from "./pages/Settings/sales/Sales";
 
 export default function App() {
   const dispatch = useDispatch();
@@ -90,7 +92,7 @@ export default function App() {
         <Route path="/general/createNewUserRole" element={<ProtectedRoute><Layout><CreateNewUserRole /></Layout></ProtectedRoute>} />
         <Route path="/general/editUserRole/:id" element={<ProtectedRoute><Layout><CreateNewUserRole /></Layout></ProtectedRoute>} />
         <Route path="/setting/inventory" element={<ProtectedRoute><Layout><InventorySettings /></Layout></ProtectedRoute>} />
-        <Route path="/setting/sales" element={<ProtectedRoute><Layout><SalesSetting /></Layout></ProtectedRoute>} />
+        <Route path="/setting/sales" element={<ProtectedRoute><Layout><Sales/></Layout></ProtectedRoute>} />
 
         {/* ==================== INVENTORY ==================== */}
         <Route path="/categorybrand" element={<ProtectedRoute><Layout><CategoryBrand /></Layout></ProtectedRoute>} />
@@ -98,6 +100,7 @@ export default function App() {
         <Route path="/inventory/recipe/createNewRecipe" element={<ProtectedRoute><Layout><CreateNewRecipe /></Layout></ProtectedRoute>} />
         <Route path="/recipe" element={<ProtectedRoute><Layout><Recipe /></Layout></ProtectedRoute>} />
         <Route path="/Product" element={<ProtectedRoute><Layout><Product /></Layout></ProtectedRoute>} />
+        <Route path="/product/stock" element={<ProtectedRoute><Layout><Stock/></Layout></ProtectedRoute>} />
         <Route path="/product-form" element={<ProtectedRoute><Layout><ProductForm /></Layout></ProtectedRoute>} />
       </Routes>
     </Router>

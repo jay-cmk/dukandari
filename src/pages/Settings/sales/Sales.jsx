@@ -5,7 +5,7 @@ import SalesSetting from './SalesSetting'
 import SalesTerms from './SalesTerms'
 import CustomerCategory from './CustomerCategory'
 
-function ContactForm() {
+function Sales() {
   return (
     <div className='p-2 '>
            <div className="pb-3 flex items-center justify-between">
@@ -30,4 +30,4 @@ function ContactForm() {
   )
 }
 
-export default ContactForm
+export default Sales
