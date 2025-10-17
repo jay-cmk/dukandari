@@ -46,7 +46,7 @@ import ViewDetails from "./pages/BankAndCash/Bank/ViewDetails";
 import Expence from "./pages/BankAndCash/Expence/Expence";
 import CreateNew from "./components/CreateNew";
 import CreateNewExpence from "./pages/BankAndCash/Expence/CreateNewExpence";
-import Estimate from "./pages/Sales/Estimate/Estimate";
+// import Estimate from "./pages/Sales/Estimate/Estimate";
 
 export default function App() {
   const dispatch = useDispatch();
