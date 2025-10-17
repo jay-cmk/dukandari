@@ -2,6 +2,7 @@ import React from 'react';
 import { ReusableTable } from '@/components/ReusableTable'; // Adjust path as needed
 import { PlusIcon, EyeIcon } from '@heroicons/react/24/outline'; // Assuming icons for actions if needed
 import { useNavigate } from 'react-router-dom';
+import IconHome from '@/components/HomeIcon/IconHome';
 
 const Product = () => {
   const title = 'Setup Opening Stock';
@@ -172,31 +173,44 @@ const Product = () => {
     // Implement delete logic
   };
 
-  return (
-    <div className="p-4">
-      {/* Additional buttons as per image */}
-      <div className="mb-4 flex gap-2">
-        <button className="px-4 py-2 bg-blue-500 text-white rounded">Import</button>
-        <button className="px-4 py-2 bg-green-500 text-white rounded">Update Bulk Products</button>
-        <button className="px-4 py-2 bg-green-500 text-white rounded">Update Bulk Product Variation</button>
-      </div>
-      
-      <ReusableTable
-        title={title}
-        data={data}
-        columns={columns}
-        onCreate={onCreate}
-        onEdit={onEdit}
-        onDelete={onDelete}
-        createButtonText="Create New"
-        searchPlaceholder="Filter List"
-        emptyMessage="No products found"
-        showCreateButton={true}
-        showEdit={true}
-        showDelete={true}
-      />
+ return (
+  <div className="p-4">
+  <div className="flex items-center gap-5 justify-between">
+  <div className="flex items-center gap-5">
+    <h1 className="text-xl text-gray-500">Product</h1>
+    <div className="h-6 w-px bg-gray-400"></div>
+    <div className="flex items-center gap-4">
+      <IconHome className="text-gray-500 w-8 h-8" />
     </div>
-  );
-};
-
+  </div>
+  
+  <a href="/openingStock" className="text-sky-500 no-underline hover:text-sky-600">
+    setup opening stock
+  </a>
+</div>
+    
+    {/* Additional buttons as per image */}
+    <div className="mb-4 flex gap-2 mt-3">
+      <button className="px-4 py-2 bg-blue-500 text-white rounded">Import</button>
+      <button className="px-4 py-2 bg-green-500 text-white rounded">Update Bulk Products</button>
+      <button className="px-4 py-2 bg-green-500 text-white rounded">Update Bulk Product Variation</button>
+    </div>
+    
+    <ReusableTable
+      // title={title}
+      data={data}
+      columns={columns}
+      onCreate={onCreate}
+      onEdit={onEdit}
+      onDelete={onDelete}
+      createButtonText="Create New"
+      searchPlaceholder="Filter List"
+      emptyMessage="No products found"
+      showCreateButton={true}
+      showEdit={true}
+      showDelete={true}
+    />
+  </div>
+);
+}
 export default Product;

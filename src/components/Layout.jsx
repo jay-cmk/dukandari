@@ -17,7 +17,7 @@ const Layout = ({ children }) => {
       <div className="flex-1 flex flex-col transition-all duration-300">
         {/* Pass toggleSidebar to Navbar */}
         <Navbar sidebarOpen={sidebarOpen} toggleSidebar={toggleSidebar} />
-        <main className="pt-16 flex-1 overflow-auto bg-gray-300">
+        <main className="pt-16 flex-1 overflow-auto bg-white">
           {children}
         </main>
       </div>
