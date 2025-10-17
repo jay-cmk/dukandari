@@ -1,11 +1,10 @@
 import React from 'react';
 import { ReusableTable } from '@/components/ReusableTable'; // Adjust path as needed
-import { PlusIcon, EyeIcon } from '@heroicons/react/24/outline'; // Assuming icons for actions if needed
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 const Product = () => {
   const title = 'Setup Opening Stock';
-    const navigate = useNavigate(); // ✅ React Router hook
+  const navigate = useNavigate(); // ✅ React Router hook
 
   const data = [
     {
@@ -14,10 +13,10 @@ const Product = () => {
       category: 'TEA&COFFEE',
       brand: 'ccgy',
       name: 'Budsx',
-      mrp: 150.00,
-      sellingPrice: 150.00,
+      mrp: 150.0,
+      sellingPrice: 150.0,
       hsn: '',
-      qty: 140.00,
+      qty: 140.0,
       status: 'ACTIVE',
       showOnline: true,
     },
@@ -27,10 +26,10 @@ const Product = () => {
       category: 'TEA&COFFEE',
       brand: 'ARCOGYA',
       name: 'temp',
-      mrp: 1560.00,
-      sellingPrice: 1560.00,
-      hsn: '0902', // Assumed based on context
-      qty: 44.90,
+      mrp: 1560.0,
+      sellingPrice: 1560.0,
+      hsn: '0902',
+      qty: 44.9,
       status: 'ACTIVE',
       showOnline: false,
     },
@@ -40,10 +39,10 @@ const Product = () => {
       category: 'COOKING',
       brand: 'ANCHOR',
       name: 'test product',
-      mrp: 0.00,
-      sellingPrice: 0.00,
+      mrp: 0.0,
+      sellingPrice: 0.0,
       hsn: '',
-      qty: 15.00,
+      qty: 15.0,
       status: 'ACTIVE',
       showOnline: true,
     },
@@ -53,10 +52,10 @@ const Product = () => {
       category: 'TEA&COFFEE',
       brand: 'ARCOGYA',
       name: 'AROGYA SONTI COFFEE POWDER 15G',
-      mrp: 139.00,
-      sellingPrice: 130.00,
+      mrp: 139.0,
+      sellingPrice: 130.0,
       hsn: '',
-      qty: -6.00,
+      qty: -6.0,
       status: 'ACTIVE',
       showOnline: true,
     },
@@ -66,10 +65,10 @@ const Product = () => {
       category: '1st',
       brand: '24MANTRA',
       name: 'shani',
-      mrp: 1300.00,
-      sellingPrice: 1300.00,
+      mrp: 1300.0,
+      sellingPrice: 1300.0,
       hsn: '',
-      qty: -15.00,
+      qty: -15.0,
       status: 'ACTIVE',
       showOnline: false,
     },
@@ -79,8 +78,8 @@ const Product = () => {
       category: '1st',
       brand: '24MANTRA',
       name: 'MS',
-      mrp: 682.50,
-      sellingPrice: 682.50,
+      mrp: 682.5,
+      sellingPrice: 682.5,
       hsn: '',
       qty: 0,
       status: 'ACTIVE',
@@ -92,8 +91,8 @@ const Product = () => {
       category: 'FOURTH FLOOR-A',
       brand: '24MANTRA',
       name: 'Stock Transfer product testing',
-      mrp: 650.00,
-      sellingPrice: 650.00,
+      mrp: 650.0,
+      sellingPrice: 650.0,
       hsn: '',
       qty: 0,
       status: 'ACTIVE',
@@ -105,8 +104,8 @@ const Product = () => {
       category: 'Jeans',
       brand: 'Lee',
       name: 'Rajafari18',
-      mrp: 2500.00,
-      sellingPrice: 2350.00,
+      mrp: 2500.0,
+      sellingPrice: 2350.0,
       hsn: '09840',
       qty: 0,
       status: 'ACTIVE',
@@ -118,10 +117,10 @@ const Product = () => {
       category: 'Jeans',
       brand: 'Lee',
       name: 'Rajafari17',
-      mrp: 2500.00,
-      sellingPrice: 2350.00,
+      mrp: 2500.0,
+      sellingPrice: 2350.0,
       hsn: '09879',
-      qty: -1.00,
+      qty: -1.0,
       status: 'ACTIVE',
       showOnline: true,
     },
@@ -131,21 +130,33 @@ const Product = () => {
       category: 'Jeans',
       brand: 'Lee',
       name: 'Rajafari16',
-      mrp: 2500.00,
-      sellingPrice: 2400.00,
+      mrp: 2500.0,
+      sellingPrice: 2400.0,
       hsn: '09878',
       qty: 0,
       status: 'ACTIVE',
       showOnline: false,
     },
-    // Add more data up to 162 if needed, but truncated for brevity
   ];
 
+  // ✅ Only change: render "Name" as clickable link
   const columns = [
     { key: 'itemCode', label: 'Item Code' },
     { key: 'category', label: 'Category' },
     { key: 'brand', label: 'Brand' },
-    { key: 'name', label: 'Name' },
+   {
+  key: 'name',
+  label: 'Name',
+  render: (row) => (
+    <button
+      onClick={() => navigate(`/product/${row.id}`)}
+      className="text-blue-600 hover:underline bg-transparent border-none cursor-pointer"
+    >
+      {row.name}
+    </button>
+  ),
+},
+
     { key: 'mrp', label: 'MRP' },
     { key: 'sellingPrice', label: 'Selling Price' },
     { key: 'hsn', label: 'HSN' },
@@ -155,32 +166,31 @@ const Product = () => {
   ];
 
   const onCreate = () => {
-    console.log('Create new product');
-     console.log('Edit product:',);
-     navigate("/product-form", {
-      state: { mode: "create" },
-    });
+    navigate('/product-form', { state: { mode: 'create' } });
   };
 
   const onEdit = (row) => {
     console.log('Edit product:', row);
-    // Implement edit logic
   };
 
   const onDelete = (row) => {
     console.log('Delete product:', row);
-    // Implement delete logic
   };
 
   return (
     <div className="p-4">
-      {/* Additional buttons as per image */}
+      {/* Toolbar */}
       <div className="mb-4 flex gap-2">
         <button className="px-4 py-2 bg-blue-500 text-white rounded">Import</button>
-        <button className="px-4 py-2 bg-green-500 text-white rounded">Update Bulk Products</button>
-        <button className="px-4 py-2 bg-green-500 text-white rounded">Update Bulk Product Variation</button>
+        <button className="px-4 py-2 bg-green-500 text-white rounded">
+          Update Bulk Products
+        </button>
+        <button className="px-4 py-2 bg-green-500 text-white rounded">
+          Update Bulk Product Variation
+        </button>
       </div>
-      
+
+      {/* Table */}
       <ReusableTable
         title={title}
         data={data}

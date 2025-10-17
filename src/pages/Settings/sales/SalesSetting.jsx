@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { FeatureToggleGroup } from "@/components/featureToggleGroup/FeatureToggleGroup";
 import IconHome from "@/components/HomeIcon/IconHome";
 
-const SalesSetting = () => {
+const SalesSetting = () =>  {
     // 🔹 Input states
     const [defaultSalesman, setDefaultSalesman] = useState("");
     const [defaultTax, setDefaultTax] = useState("None");
@@ -49,15 +49,9 @@ const SalesSetting = () => {
     ];
 
     return (
-        <div className=" bg-gray-100 p-2">
-            <div className=" flex items-center justify-between">
-                {/* <div className="flex items-center gap-5">
-                    <h1 className="text-1xl text-gray-500">Sales Setting</h1>
-                    <div className="h-6 w-px bg-gray-400"></div>
-                    <IconHome className="text-gray-500 w-8 h-8" />
-                </div> */}
-            </div>
-            <div className="p-6 rounded-2xl ">
+        <div className=" rounded-2xl">
+           
+            <div className=" rounded-md ">
                 {/* 🔸 Feature Toggles Section */}
                 <FeatureToggleGroup title="Feature Settings" features={featureList} />
 
@@ -78,7 +72,7 @@ const SalesSetting = () => {
                     </div>
 
                     {/* Default Tax */}
-                    <div className="flex flex-col bg-white">
+                    <div className="flex flex-col bg-white"> 
                         <label className="text-sm font-medium text-gray-700 mb-1">
                             Default Tax
                         </label>

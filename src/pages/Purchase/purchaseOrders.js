@@ -1,0 +1,31 @@
+// src/pages/purchaseOrders.js
+export const purchaseOrders = [
+  {
+    id: 1,
+    status: "Completed",
+    poNo: "PO-2025-001",
+    supplier: "ABC Supplies Pvt. Ltd.",
+    poDate: "2025-10-10",
+    supplyDate: "2025-10-14",
+    poAmount: 75000,
+    poQty: 120,
+    receivedQty: 120,
+    createdBy: "John Doe",
+    location: "Bhopal",
+    notes: "Delivered on time.",
+  },
+  {
+    id: 2,
+    status: "In Progress",
+    poNo: "PO-2025-002",
+    supplier: "XYZ Traders",
+    poDate: "2025-10-12",
+    supplyDate: "2025-10-18",
+    poAmount: 50000,
+    poQty: 90,
+    receivedQty: 45,
+    createdBy: "Amit Verma",
+    location: "Indore",
+    notes: "Partial delivery done.",
+  },
+];

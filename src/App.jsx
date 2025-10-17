@@ -30,6 +30,12 @@ import ProductForm from "./pages/Inventry/product/ProductForm";
 import { setUser } from "./redux/features/auth/authSlice";
 import Stock from "./pages/Inventry/Stock/Stock";
 import Sales from "./pages/Settings/sales/Sales";
+import ProductDetails from "./pages/Inventry/product/ProductDetails";
+import PurchaseOrder from "./pages/Purchase/purachaseOrder/PurchaseOrder";
+import MaterialInword from "./pages/Purchase/materialInword/Materialnword";
+import SupplierBill from "./pages/Purchase/supplierBill/SupplierBill";
+import DebitNote from "./pages/Purchase/debitNote/DebitNote";
+import FormDebitNote from "./pages/Purchase/debitNote/formDebitNote/FormDebitNote";
 
 export default function App() {
   const dispatch = useDispatch();
@@ -102,6 +108,18 @@ export default function App() {
         <Route path="/Product" element={<ProtectedRoute><Layout><Product /></Layout></ProtectedRoute>} />
         <Route path="/product/stock" element={<ProtectedRoute><Layout><Stock/></Layout></ProtectedRoute>} />
         <Route path="/product-form" element={<ProtectedRoute><Layout><ProductForm /></Layout></ProtectedRoute>} />
+        <Route path="/product/:id" element={<ProtectedRoute><Layout><ProductDetails /></Layout></ProtectedRoute>} />
+
+
+         {/* ==================== purchase ==================== */}
+          <Route path="/purchase/order" element={<ProtectedRoute><Layout><PurchaseOrder/></Layout></ProtectedRoute>} />
+          <Route path="/purchase/materialinward" element={<ProtectedRoute><Layout><MaterialInword/></Layout></ProtectedRoute>} />
+          <Route path="/purchase/bill" element={<ProtectedRoute><Layout><SupplierBill/></Layout></ProtectedRoute>} />
+          <Route path="/purchase/debitnote"element={<ProtectedRoute><Layout><DebitNote/></Layout></ProtectedRoute>} />
+          <Route path="/new"element={<ProtectedRoute><Layout><FormDebitNote/></Layout></ProtectedRoute>} />
+         
+
+
       </Routes>
     </Router>
   );

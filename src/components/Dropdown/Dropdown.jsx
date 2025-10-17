@@ -63,7 +63,7 @@ const Dropdown = ({
       {/* Dropdown Trigger */}
       <div
         className={`
-          w-full cursor-default rounded-md border border-gray-300 bg-white py-1 pl-3 pr-10 text-left
+          w-full cursor-default rounded-md border border-gray-300 bg-white  pl-3 pr-10 text-left
           hover:border-gray-400 transition-colors duration-200
           ${isOpen ? 'border-blue-500 ring-1 ring-blue-500' : ''}
           ${disabled ? 'bg-gray-100 cursor-not-allowed opacity-50' : ''}

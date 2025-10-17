@@ -2,12 +2,12 @@
 import React from 'react';
 
 // Menu configuration - Exact order from image
-export const menuItems = [
+ const menuItems = [
     'Profile',
     'Taxes',
     'Report Formats', 
     'User Roles',
-    'Prefix',
+    'Prefix',  
     'Payment Terms',
     'Additional Charges',
     'Hardware',

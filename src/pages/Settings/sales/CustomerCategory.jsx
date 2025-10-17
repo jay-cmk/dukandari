@@ -84,7 +84,7 @@ export default function CustomerCategory() {
         onCreate={handleCreate}
         onEdit={handleEdit}
         onDelete={handleDelete}
-        createButtonText="Create New Charge"
+        createButtonText="Create New "
         emptyMessage="No data available in table"
       />
 
@@ -92,7 +92,7 @@ export default function CustomerCategory() {
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
         onSave={handleSave}
-        title={isEdit ? "Edit Additional Charge" : "New Additional Charge"}
+        title={isEdit ? "Edit Additional " : "New Additional"}
         fields={additionalChargeConfig.modalFields}
         initialData={selectedItem || {}}
         isEdit={isEdit}

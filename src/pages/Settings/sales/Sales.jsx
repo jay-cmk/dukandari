@@ -7,8 +7,8 @@ import CustomerCategory from './CustomerCategory'
 
 function Sales() {
   return (
-    <div className='p-2 '>
-           <div className="pb-3 flex items-center justify-between">
+    <div className=''>
+      <div className=" p-3 flex items-center justify-between">
         <div className="flex items-center gap-5">
           <h1 className="text-2xl text-gray-500">Sales</h1>
           <div className="h-6 w-px bg-gray-400"></div>
@@ -20,12 +20,12 @@ function Sales() {
           </div>
         </div>
       </div>
-       <div>
-         <SalesSetting/>
-        <SalesTerms/>
-        <CustomerCategory/>
-       </div>
-      
+      <div className='rounded-t p-2'>
+        <SalesSetting />
+        <SalesTerms />
+        <CustomerCategory />
+      </div>
+
     </div>
   )
 }

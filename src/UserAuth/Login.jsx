@@ -184,12 +184,15 @@ import { useDispatch, useSelector } from "react-redux";
 import { loginThunk, setUser } from "../../src/redux/features/auth/authSlice";
 import { saveMenusToDB } from "@/utils/dbUtils";
 import { getMenusFromDB } from "@/utils/getMenusFromDB";
+import { SpinnerCustom } from "@/components/ui/spinner"; // ✅ your custom spinner
+
 
 
 const Login = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { loading, error, user } = useSelector((state) => state.auth);
+const { status, error, user } = useSelector((state) => state.auth);
+const loading = status === "loading";  
 
   const { register, handleSubmit, formState: { errors } } = useForm();
 
@@ -225,25 +228,16 @@ const Login = () => {
       const res = await dispatch(loginThunk(data)).unwrap(); // wait for the thunk
 
       if (res.token) {
-        // ✅ Store token in localStorage (for API auth)
 
         localStorage.setItem("token", res.token);
         dispatch(setUser({ token: res.token }));
 
-        const { navMenus, navSubMenus } = await saveMenusToDB(
-          res.navMenuPermissions,
-          res.navSubMenuPermissions
-        );
         const menus = await getMenusFromDB();
         console.log("📦 Menus fetched from DB:", menus);
 
         // ✅ Save menu data to IndexedDB
         const dbdata = await saveMenusToDB(res.navMenuPermissions, res.navSubMenuPermissions);
 
-
-        // Optional fallback: also keep in localStorage for debugging
-        // localStorage.setItem("navMenuPermissions", JSON.stringify(res.navMenuPermissions));
-        // localStorage.setItem("navSubMenuPermissions", JSON.stringify(res.navSubMenuPermissions));
       }
 
       console.log("token", res.token);
@@ -327,14 +321,25 @@ const Login = () => {
             </div>
 
             {/* Login Button */}
+        
+              {/* ✅ Login Button with Spinner */}
             <button
               type="submit"
               disabled={loading}
-              className={`w-full bg-blue-500 text-white py-3 px-4 rounded-lg hover:bg-blue-600 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 font-medium ${loading ? "opacity-70 cursor-not-allowed" : ""
-                }`}
+              className={`w-full flex items-center justify-center gap-2 bg-blue-500 text-white py-3 px-4 rounded-lg hover:bg-blue-600 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 font-medium ${
+                loading ? "opacity-70 cursor-not-allowed" : ""
+              }`}
             >
-              {loading ? "Logging in..." : "Login"}
+              {loading ? (
+                <>
+                  <SpinnerCustom className="text-white" />
+                  Logging in...
+                </>
+              ) : (
+                "Login"
+              )}
             </button>
+            
 
             {/* Sign Up Link */}
             <div className="text-center">

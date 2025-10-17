@@ -10,7 +10,7 @@ const EmployeeForm = () => {
     const [showAuthentication, setShowAuthentication] = useState(false);
     const [isEdit, setIsEdit] = useState(false);
     const [employeeId, setEmployeeId] = useState(null);
-    
+
     const [formData, setFormData] = useState({
         // Employee Details
         name: "",
@@ -57,7 +57,7 @@ const EmployeeForm = () => {
     useEffect(() => {
         if (location.state) {
             const { employeeData, isEdit: editMode, employeeId: id } = location.state;
-            
+
             if (editMode && employeeData) {
                 setIsEdit(true);
                 setEmployeeId(id);
@@ -65,7 +65,7 @@ const EmployeeForm = () => {
                     ...prev,
                     ...employeeData
                 }));
-                
+
                 // Show authentication section if credentials exist
                 if (employeeData.userName || employeeData.role) {
                     setShowAuthentication(true);
@@ -132,14 +132,14 @@ const EmployeeForm = () => {
                 console.log("Creating Employee:", formData);
                 alert("Employee added successfully!");
             }
-            
+
             // Navigate back to employee list after successful submission
             navigate("/employees");
         }
     };
 
     return (
-        <div className="mx-auto p-4 bg-gray-300">
+        <div className="mx-auto p-4 bg-gray-300 ">
             <h1 className="text-2xl font-bold mb-2">
                 {isEdit ? "Edit Employee" : "New Employee"}
             </h1>
@@ -160,9 +160,10 @@ const EmployeeForm = () => {
                                         value={formData.name}
                                         onChange={handleChange}
                                         onBlur={handleBlur}
-                                        className="w-full border p-2 rounded text-sm hover:border-blue-600 transition-colors duration-200 h-9"
+                                        className="w-full border p-2 rounded text-sm hover:border-blue-600 transition-colors duration-200 h-7"
                                         placeholder="Name"
                                     />
+
                                     {errors.name && (
                                         <p className="text-red-500 text-xs mt-1">{errors.name}</p>
                                     )}
@@ -172,7 +173,7 @@ const EmployeeForm = () => {
                                         Mobile No.<span className="text-red-500">*</span>
                                     </label>
                                     <div className="flex">
-                                        <select className="border p-2 rounded-l bg-gray-100 text-sm w-20 hover:border-blue-600 transition-colors duration-200 h-9">
+                                        <select className="border p-2 rounded-l bg-gray-100 text-sm w-20 hover:border-blue-600 transition-colors duration-200 h-7">
                                             <option>+91</option>
                                         </select>
                                         <input
@@ -181,7 +182,7 @@ const EmployeeForm = () => {
                                             value={formData.mobileNo}
                                             onChange={handleChange}
                                             onBlur={handleBlur}
-                                            className="w-full border p-2 rounded-r text-sm hover:border-blue-600 transition-colors duration-200 h-9"
+                                            className="w-full border p-2 rounded-r text-sm hover:border-blue-600 transition-colors duration-200 h-7"
                                             placeholder="Mobile No."
                                         />
                                     </div>
@@ -199,7 +200,7 @@ const EmployeeForm = () => {
                                         value={formData.email}
                                         onChange={handleChange}
                                         onBlur={handleBlur}
-                                        className="w-full border p-2 rounded text-sm hover:border-blue-600 transition-colors duration-200 h-9"
+                                        className="w-full border p-2 rounded text-sm hover:border-blue-600 transition-colors duration-200 h-7"
                                         placeholder="Email"
                                     />
                                     {errors.email && (
@@ -216,14 +217,14 @@ const EmployeeForm = () => {
                                         value={formData.panNo}
                                         onChange={handleChange}
                                         onBlur={handleBlur}
-                                        className="w-full border p-2 rounded text-sm hover:border-blue-600 transition-colors duration-200 h-9"
+                                        className="w-full border p-2 rounded text-sm hover:border-blue-600 transition-colors duration-200 h-7"
                                         placeholder="PAN No."
                                     />
                                     {errors.panNo && (
                                         <p className="text-red-500 text-xs mt-1">{errors.panNo}</p>
                                     )}
                                 </div>
-                                
+
                                 {/* Row 2: Select Group (conditionally rendered) and Checkboxes */}
                                 <div className="grid grid-cols-1 md:grid-cols-1 gap-4 mb-4">
                                     {formData.isManager && (
@@ -231,7 +232,7 @@ const EmployeeForm = () => {
                                             <label className="block mb-1 text-sm font-semibold text-black">
                                                 Select Group
                                             </label>
-                                            <div className="h-9">
+                                            <div className="h-7">
                                                 <Dropdown
                                                     name="selectGroup"
                                                     value={formData.selectGroup}
@@ -255,7 +256,7 @@ const EmployeeForm = () => {
                                         name="isManager"
                                         checked={formData.isManager}
                                         onChange={handleChange}
-                                        className="mr-2 hover:border-blue-600 h-4 w-4"
+                                        className="mr-2 hover:border-blue-600 h-4 w-4 "
                                     />
                                     <label className="text-sm font-semibold text-black">
                                         Manager
@@ -267,7 +268,7 @@ const EmployeeForm = () => {
                                         name="isDeliveryUser"
                                         checked={formData.isDeliveryUser}
                                         onChange={handleChange}
-                                        className="mr-2 hover:border-blue-600 h-4 w-4"
+                                        className="mr-2 hover:border-blue-600 h-4 w-4 "
                                     />
                                     <label className="text-sm font-semibold text-black">
                                         Is Delivery User
@@ -299,7 +300,7 @@ const EmployeeForm = () => {
                                         value={formData.address}
                                         onChange={handleChange}
                                         onBlur={handleBlur}
-                                        className="w-full border p-2 rounded text-sm hover:border-blue-600 transition-colors duration-200 h-9"
+                                        className="w-full border p-2 rounded text-sm hover:border-blue-600 transition-colors duration-200 h-7"
                                         placeholder="Address"
                                     />
                                     {errors.address && (
@@ -310,7 +311,7 @@ const EmployeeForm = () => {
                                     <label className="block mb-1 text-sm font-semibold text-black">
                                         Select Country<span className="text-red-500">*</span>
                                     </label>
-                                    <div className="h-9">
+                                    <div className="h-7">
                                         <Dropdown
                                             name="country"
                                             value={formData.country}
@@ -326,7 +327,7 @@ const EmployeeForm = () => {
                                     <label className="block mb-1 text-sm font-semibold text-black">
                                         Select State<span className="text-red-500">*</span>
                                     </label>
-                                    <div className="h-9">
+                                    <div className="h-7">
                                         <Dropdown
                                             name="state"
                                             value={formData.state}
@@ -342,7 +343,7 @@ const EmployeeForm = () => {
                                     <label className="block mb-1 text-sm font-semibold text-black">
                                         Select City<span className="text-red-500">*</span>
                                     </label>
-                                    <div className="h-9">
+                                    <div className="h-7">
                                         <Dropdown
                                             name="city"
                                             value={formData.city}
@@ -364,7 +365,7 @@ const EmployeeForm = () => {
                                         value={formData.zipCode}
                                         onChange={handleChange}
                                         onBlur={handleBlur}
-                                        className="w-full border p-2 rounded text-sm hover:border-blue-600 transition-colors duration-200 h-9"
+                                        className="w-full border p-2 rounded text-sm hover:border-blue-600 transition-colors duration-200 h-7"
                                         placeholder="ZIP/Postal code"
                                     />
                                     {errors.zipCode && (
@@ -385,7 +386,7 @@ const EmployeeForm = () => {
                                         value={formData.bankName}
                                         onChange={handleChange}
                                         onBlur={handleBlur}
-                                        className="w-full border p-2 rounded text-sm hover:border-blue-600 transition-colors duration-200 h-9"
+                                        className="w-full border p-2 rounded text-sm hover:border-blue-600 transition-colors duration-200 h-7"
                                         placeholder="BankName"
                                     />
                                     {errors.bankName && (
@@ -402,7 +403,7 @@ const EmployeeForm = () => {
                                         value={formData.branchName}
                                         onChange={handleChange}
                                         onBlur={handleBlur}
-                                        className="w-full border p-2 rounded text-sm hover:border-blue-600 transition-colors duration-200 h-9"
+                                        className="w-full border p-2 rounded text-sm hover:border-blue-600 transition-colors duration-200 h-7"
                                         placeholder="Branch Name"
                                     />
                                     {errors.branchName && (
@@ -419,7 +420,7 @@ const EmployeeForm = () => {
                                         value={formData.accountNo}
                                         onChange={handleChange}
                                         onBlur={handleBlur}
-                                        className="w-full border p-2 rounded text-sm hover:border-blue-600 transition-colors duration-200 h-9"
+                                        className="w-full border p-2 rounded text-sm hover:border-blue-600 transition-colors duration-200 h-7"
                                         placeholder="Account No."
                                     />
                                     {errors.accountNo && (
@@ -436,7 +437,7 @@ const EmployeeForm = () => {
                                         value={formData.ifscCode}
                                         onChange={handleChange}
                                         onBlur={handleBlur}
-                                        className="w-full border p-2 rounded text-sm hover:border-blue-600 transition-colors duration-200 h-9"
+                                        className="w-full border p-2 rounded text-sm hover:border-blue-600 transition-colors duration-200 h-7"
                                         placeholder="IFSC Code"
                                     />
                                     {errors.ifscCode && (
@@ -453,7 +454,7 @@ const EmployeeForm = () => {
                                         value={formData.accountHolderName}
                                         onChange={handleChange}
                                         onBlur={handleBlur}
-                                        className="w-full border p-2 rounded text-sm hover:border-blue-600 transition-colors duration-200 h-9"
+                                        className="w-full border p-2 rounded text-sm hover:border-blue-600 transition-colors duration-200 h-7"
                                         placeholder="Account Holder Name"
                                     />
                                     {errors.accountHolderName && (
@@ -474,7 +475,7 @@ const EmployeeForm = () => {
                                         value={formData.wages}
                                         onChange={handleChange}
                                         onBlur={handleBlur}
-                                        className="w-full border p-2 rounded text-sm hover:border-blue-600 transition-colors duration-200 h-9"
+                                        className="w-full border p-2 rounded text-sm hover:border-blue-600 transition-colors duration-200 h-7"
                                         placeholder="Wages"
                                     />
                                     {errors.wages && (
@@ -491,7 +492,7 @@ const EmployeeForm = () => {
                                         value={formData.commission}
                                         onChange={handleChange}
                                         onBlur={handleBlur}
-                                        className="w-full border p-2 rounded text-sm hover:border-blue-600 transition-colors duration-200 h-9"
+                                        className="w-full border p-2 rounded text-sm hover:border-blue-600 transition-colors duration-200 h-7"
                                         placeholder="Commission (%)"
                                     />
                                     {errors.commission && (
@@ -508,7 +509,7 @@ const EmployeeForm = () => {
                                         value={formData.extraWages}
                                         onChange={handleChange}
                                         onBlur={handleBlur}
-                                        className="w-full border p-2 rounded text-sm hover:border-blue-600 transition-colors duration-200 h-9"
+                                        className="w-full border p-2 rounded text-sm hover:border-blue-600 transition-colors duration-200 h-7"
                                         placeholder="Extra Wages"
                                     />
                                     {errors.extraWages && (
@@ -525,7 +526,7 @@ const EmployeeForm = () => {
                                         value={formData.target}
                                         onChange={handleChange}
                                         onBlur={handleBlur}
-                                        className="w-full border p-2 rounded text-sm hover:border-blue-600 transition-colors duration-200 h-9"
+                                        className="w-full border p-2 rounded text-sm hover:border-blue-600 transition-colors duration-200 h-7"
                                         placeholder="Target"
                                     />
                                     {errors.target && (
@@ -536,7 +537,7 @@ const EmployeeForm = () => {
                                     <label className="block mb-1 text-sm font-semibold text-black">
                                         Select Branch
                                     </label>
-                                    <div className="h-9">
+                                    <div className="h-7">
                                         <Dropdown
                                             name="selectedBranch"
                                             value={formData.selectedBranch}
@@ -567,7 +568,7 @@ const EmployeeForm = () => {
                                                     value={formData.userName}
                                                     onChange={handleChange}
                                                     onBlur={handleBlur}
-                                                    className="w-full border p-2 rounded text-sm hover:border-blue-600 transition-colors duration-200 h-9"
+                                                    className="w-full border p-2 rounded text-sm hover:border-blue-600 transition-colors duration-200 h-7"
                                                     placeholder="User name"
                                                 />
                                                 {errors.userName && (
@@ -584,7 +585,7 @@ const EmployeeForm = () => {
                                                     value={formData.password}
                                                     onChange={handleChange}
                                                     onBlur={handleBlur}
-                                                    className="w-full border p-2 rounded text-sm hover:border-blue-600 transition-colors duration-200 h-9"
+                                                    className="w-full border p-2 rounded text-sm hover:border-blue-600 transition-colors duration-200 h-7"
                                                     placeholder={isEdit ? "Leave blank to keep current" : "Password"}
                                                 />
                                                 {errors.password && (
@@ -595,7 +596,7 @@ const EmployeeForm = () => {
                                                 <label className="block mb-1 text-sm font-semibold text-black">
                                                     Select Role{!isEdit && <span className="text-red-500">*</span>}
                                                 </label>
-                                                <div className="h-9">
+                                                <div className="h-7">
                                                     <Dropdown
                                                         name="role"
                                                         value={formData.role}
@@ -615,7 +616,7 @@ const EmployeeForm = () => {
                             </div>
 
                             {/* Add Authentication Details Button */}
-                            <div className="mt-6 mb-4">
+                            <div className="mt-3 mb-4">
                                 <button
                                     type="button"
                                     onClick={handleAddAuthentication}

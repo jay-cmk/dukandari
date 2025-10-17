@@ -8,7 +8,7 @@ export const FeatureToggleGroup = ({
   columns = "md:grid-cols-2 lg:grid-cols-3", // Responsive grid layout
 }) => {
   return (
-    <div className="bg-white shadow-sm  p-4 ">
+    <div className="bg-white  rounded-t shadow-sm  p-4 ">
       {/* Title */}
       <h3 className="text-sm font-semibold text-gray-700 mb-3 uppercase tracking-wide">
         {title}
