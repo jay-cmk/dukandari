@@ -36,6 +36,17 @@ import MaterialInword from "./pages/Purchase/materialInword/Materialnword";
 import SupplierBill from "./pages/Purchase/supplierBill/SupplierBill";
 import DebitNote from "./pages/Purchase/debitNote/DebitNote";
 import FormDebitNote from "./pages/Purchase/debitNote/formDebitNote/FormDebitNote";
+import OpeningStock from "./pages/Inventry/product/OpeningStock";
+import MaterialConsuption from './pages/Inventry/MaterialConsuption/MaterialConsuption';
+import Bank from "./pages/BankAndCash/Bank/Bank";
+import CreateNewBank from "./pages/BankAndCash/Bank/CreateNewBank";
+import Payment from './pages/BankAndCash/Payment/Payment';
+import CreateNewPayment from "./pages/BankAndCash/Payment/CreateNewPayment";
+import ViewDetails from "./pages/BankAndCash/Bank/ViewDetails";
+import Expence from "./pages/BankAndCash/Expence/Expence";
+import CreateNew from "./components/CreateNew";
+import CreateNewExpence from "./pages/BankAndCash/Expence/CreateNewExpence";
+import Estimate from "./pages/Sales/Estimate/Estimate";
 
 export default function App() {
   const dispatch = useDispatch();
@@ -106,6 +117,8 @@ export default function App() {
         <Route path="/inventory/recipe/createNewRecipe" element={<ProtectedRoute><Layout><CreateNewRecipe /></Layout></ProtectedRoute>} />
         <Route path="/recipe" element={<ProtectedRoute><Layout><Recipe /></Layout></ProtectedRoute>} />
         <Route path="/Product" element={<ProtectedRoute><Layout><Product /></Layout></ProtectedRoute>} />
+        <Route path="/openingStock" element={<ProtectedRoute><Layout><OpeningStock/></Layout></ProtectedRoute>} />
+        <Route path="/materialconsumption" element={<ProtectedRoute><Layout><MaterialConsuption/></Layout></ProtectedRoute>} />
         <Route path="/product/stock" element={<ProtectedRoute><Layout><Stock/></Layout></ProtectedRoute>} />
         <Route path="/product-form" element={<ProtectedRoute><Layout><ProductForm /></Layout></ProtectedRoute>} />
         <Route path="/product/:id" element={<ProtectedRoute><Layout><ProductDetails /></Layout></ProtectedRoute>} />
@@ -118,6 +131,17 @@ export default function App() {
           <Route path="/purchase/debitnote"element={<ProtectedRoute><Layout><DebitNote/></Layout></ProtectedRoute>} />
           <Route path="/new"element={<ProtectedRoute><Layout><FormDebitNote/></Layout></ProtectedRoute>} />
          
+
+         {/* ==================== Bank And Cash ==================== */}
+        <Route path="/bank" element={<ProtectedRoute><Layout><Bank/></Layout></ProtectedRoute>} />
+        <Route path="/createNewBank" element={<ProtectedRoute><Layout><CreateNewBank/></Layout></ProtectedRoute>} />
+        <Route path="/viewDetails" element={<ProtectedRoute><Layout><ViewDetails/></Layout></ProtectedRoute>} />
+        <Route path="/payment" element={<ProtectedRoute><Layout><Payment/></Layout></ProtectedRoute>} />
+        <Route path="/createNewPayment" element={<ProtectedRoute><Layout><CreateNewPayment/></Layout></ProtectedRoute>} />
+        <Route path="/expense" element={<ProtectedRoute><Layout><Expence/></Layout></ProtectedRoute>} />
+        <Route path="/createNewExpence" element={<ProtectedRoute><Layout><CreateNewExpence/></Layout></ProtectedRoute>} />
+
+       
 
 
       </Routes>
